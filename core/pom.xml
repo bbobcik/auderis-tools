@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>cz.auderis</groupId>
+		<artifactId>auderis-tools-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>auderis-tools-core</artifactId>
+	<packaging>jar</packaging>
+	
+	<name>Auderis Tools - core utilities</name>
+	<description>Auderis Tools - core classes</description>
+	<url>https://github.com/bbobcik/auderis-tools</url>
+    <inceptionYear>2014</inceptionYear> 
+    
+	<developers>
+		<developer>
+			<name>Boleslav Bobcik</name>
+			<email>bbobcik@gmail.com</email>
+			<organization>Auderis</organization>
+			<organizationUrl>https://github.com/bbobcik</organizationUrl>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git@github.com:bbobcik/auderis-tools.git</connection>
+		<developerConnection>scm:git:git@github.com:bbobcik/auderis-tools.git</developerConnection>
+		<url>git@github.com:bbobcik/auderis-tools.git</url>
+	</scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.catch-exception</groupId>
+            <artifactId>catch-exception</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
