@@ -13,13 +13,14 @@
 	<name>Auderis Tools - core utilities</name>
 	<description>Auderis Tools - core classes</description>
 	<url>https://github.com/bbobcik/auderis-tools</url>
-    <inceptionYear>2014</inceptionYear> 
-    
+    <inceptionYear>2014</inceptionYear>
+
 	<developers>
 		<developer>
+            <id>bbobcik</id>
 			<name>Boleslav Bobcik</name>
 			<email>bbobcik@gmail.com</email>
-			<organization>Auderis</organization>
+			<organization>Boleslav Bobcik - Auderis</organization>
 			<organizationUrl>https://github.com/bbobcik</organizationUrl>
 		</developer>
 	</developers>
@@ -28,14 +29,9 @@
 		<license>
 			<name>The Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
 		</license>
 	</licenses>
-
-	<scm>
-		<connection>scm:git:git@github.com:bbobcik/auderis-tools.git</connection>
-		<developerConnection>scm:git:git@github.com:bbobcik/auderis-tools.git</developerConnection>
-		<url>git@github.com:bbobcik/auderis-tools.git</url>
-	</scm>
 
     <dependencies>
         <dependency>
@@ -54,5 +50,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 
 </project>
