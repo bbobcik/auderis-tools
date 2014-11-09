@@ -80,9 +80,7 @@ public class PrimitiveDataObjectTest {
 		for (boolean point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("boolItem", point);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue(point == testObject.boolItem());
 			assertTrue(point == testObject.boolItemObj());
 		}
@@ -94,9 +92,7 @@ public class PrimitiveDataObjectTest {
 		for (boolean point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("boolItem", Boolean.toString(point));
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue(point == testObject.boolItem());
 			assertTrue(point == testObject.boolItemObj());
 		}
@@ -122,9 +118,7 @@ public class PrimitiveDataObjectTest {
 		for (int point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("byteItem", Byte.toString((byte) point));
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue((byte) point == testObject.byteItem());
 			assertTrue((byte) point == testObject.byteItemObj());
 		}
@@ -136,9 +130,7 @@ public class PrimitiveDataObjectTest {
 		for (int point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("shortItem", (short) point);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue((short) point == testObject.shortItem());
 			assertTrue((short) point == testObject.shortItemObj());
 		}
@@ -150,9 +142,7 @@ public class PrimitiveDataObjectTest {
 		for (int point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("shortItem", Short.toString((short) point));
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue((short) point == testObject.shortItem());
 			assertTrue((short) point == testObject.shortItemObj());
 		}
@@ -164,9 +154,7 @@ public class PrimitiveDataObjectTest {
 		for (int point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("intItem", point);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue(point == testObject.intItem());
 			assertTrue(point == testObject.intItemObj());
 		}
@@ -178,9 +166,7 @@ public class PrimitiveDataObjectTest {
 		for (int point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("intItem", Integer.toString(point));
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue(point == testObject.intItem());
 			assertTrue(point == testObject.intItemObj());
 		}
@@ -192,9 +178,7 @@ public class PrimitiveDataObjectTest {
 		for (long point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("longItem", point);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue(point == testObject.longItem());
 			assertTrue(point == testObject.longItemObj());
 		}
@@ -206,9 +190,7 @@ public class PrimitiveDataObjectTest {
 		for (long point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("longItem", Long.toString(point));
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue(point == testObject.longItem());
 			assertTrue(point == testObject.longItemObj());
 		}
@@ -220,9 +202,7 @@ public class PrimitiveDataObjectTest {
 		for (double point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("doubleItem", point);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue(Double.doubleToLongBits(point) == Double.doubleToLongBits(testObject.doubleItem()));
 			assertTrue(Double.doubleToLongBits(point) == Double.doubleToLongBits(testObject.doubleItemObj()));
 		}
@@ -234,9 +214,7 @@ public class PrimitiveDataObjectTest {
 		for (double point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("doubleItem", Double.toString(point));
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertEquals(point, testObject.doubleItem(), DELTA_DOUBLE);
 			assertEquals(point, testObject.doubleItemObj(), DELTA_DOUBLE);
 		}
@@ -248,9 +226,7 @@ public class PrimitiveDataObjectTest {
 		for (float point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("floatItem", point);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertTrue(Float.floatToIntBits(point) == Float.floatToIntBits(testObject.floatItem()));
 			assertTrue(Float.floatToIntBits(point) == Float.floatToIntBits(testObject.floatItemObj()));
 		}
@@ -262,9 +238,7 @@ public class PrimitiveDataObjectTest {
 		for (float point : points) {
 			final ImmutableMap<String, ?> dataMap = ImmutableMap.of("floatItem", Float.toString(point));
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataMap);
-			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, PrimitiveDataObject.class, getClass().getClassLoader()
-			);
+			final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 			assertEquals(point, testObject.floatItem(), DELTA_FLOAT);
 			assertEquals(point, testObject.floatItemObj(), DELTA_FLOAT);
 		}
@@ -273,9 +247,7 @@ public class PrimitiveDataObjectTest {
 	@Test
 	public void shouldReturnDefaultsForUndefinedKeys() throws Exception {
 		final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(Collections.<String, Object>emptyMap());
-		final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(
-				data, PrimitiveDataObject.class, getClass().getClassLoader()
-		);
+		final PrimitiveDataObject testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObject.class);
 		assertTrue(false == testObject.boolItem());
 		assertTrue(null == testObject.boolItemObj());
 		//
@@ -301,9 +273,7 @@ public class PrimitiveDataObjectTest {
 	@Test
 	public void shouldReturnAnnotatedDefaultsForUndefinedKeys() throws Exception {
 		final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(Collections.<String, Object>emptyMap());
-		final PrimitiveDataObjectWithDefaults testObject = ConfigurationData.createConfigurationObject(
-				data, PrimitiveDataObjectWithDefaults.class, getClass().getClassLoader()
-		);
+		final PrimitiveDataObjectWithDefaults testObject = ConfigurationData.createConfigurationObject(data, PrimitiveDataObjectWithDefaults.class);
 		assertTrue(true == testObject.boolItem());
 		//
 		assertTrue((byte) 12 == testObject.byteItem());

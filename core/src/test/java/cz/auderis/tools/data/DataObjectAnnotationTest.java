@@ -100,9 +100,7 @@ public class DataObjectAnnotationTest {
 					"alias.2.value", point[4]
 			);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final DataObject testObject = ConfigurationData.createConfigurationObject(
-					data, DataObject.class, getClass().getClassLoader()
-			);
+			final DataObject testObject = ConfigurationData.createConfigurationObject(data, DataObject.class);
 			assertEquals(point[0], testObject.normalValue());
 			assertEquals(point[1], testObject.renamedValue());
 			assertEquals(point[2], testObject.valueWithEmptyName());
@@ -128,17 +126,14 @@ public class DataObjectAnnotationTest {
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
 			//
 			final DataObject2 testObject2 = ConfigurationData.createConfigurationObject(
-					data, DataObject2.class, getClass().getClassLoader()
-			);
+					data, DataObject2.class);
 			assertEquals(point[0], testObject2.normalValue());
 			assertEquals(point[1], testObject2.renamedValue());
 			assertEquals(point[2], testObject2.valueWithEmptyName());
 			assertEquals(point[3], testObject2.aliasedValue());
 			assertEquals(point[4], testObject2.aliasedValueB());
 			//
-			final DataObject3 testObject3 = ConfigurationData.createConfigurationObject(
-					data, DataObject3.class, getClass().getClassLoader()
-			);
+			final DataObject3 testObject3 = ConfigurationData.createConfigurationObject(data, DataObject3.class);
 			assertEquals(point[0], testObject3.normalValue());
 			assertEquals(point[1], testObject3.renamedValue());
 			assertEquals(point[2], testObject3.valueWithEmptyName());
@@ -163,9 +158,7 @@ public class DataObjectAnnotationTest {
 					prefix + "alias.2.value", point[4]
 			);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final PrefixedDataObject1 testObject = ConfigurationData.createConfigurationObject(
-					data, PrefixedDataObject1.class, getClass().getClassLoader()
-			);
+			final PrefixedDataObject1 testObject = ConfigurationData.createConfigurationObject(data, PrefixedDataObject1.class);
 			assertEquals(point[0], testObject.normalValue2());
 			assertEquals(point[1], testObject.renamedValue2());
 			assertEquals(point[2], testObject.valueWithEmptyName2());
@@ -190,9 +183,7 @@ public class DataObjectAnnotationTest {
 					prefix + "alias.2.value", point[4]
 			);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final PrefixedDataObject2 testObject = ConfigurationData.createConfigurationObject(
-					data, PrefixedDataObject2.class, getClass().getClassLoader()
-			);
+			final PrefixedDataObject2 testObject = ConfigurationData.createConfigurationObject(data, PrefixedDataObject2.class);
 			assertEquals(point[0], testObject.normalValue3());
 			assertEquals(point[1], testObject.renamedValue3());
 			assertEquals(point[2], testObject.valueWithEmptyName3());
@@ -217,9 +208,7 @@ public class DataObjectAnnotationTest {
 					prefix + "alias.2.value", point[4]
 			);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final PrefixOverrideDataObject1 testObject = ConfigurationData.createConfigurationObject(
-					data, PrefixOverrideDataObject1.class, getClass().getClassLoader()
-			);
+			final PrefixOverrideDataObject1 testObject = ConfigurationData.createConfigurationObject(data, PrefixOverrideDataObject1.class);
 			assertEquals(point[0], testObject.normalValue2());
 			assertEquals(point[1], testObject.renamedValue2());
 			assertEquals(point[2], testObject.valueWithEmptyName2());
@@ -260,9 +249,7 @@ public class DataObjectAnnotationTest {
 					prefix2 + "alias.2.value", point[4] + "/" + prefix2
 			));
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource.build());
-			final AggregateDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, AggregateDataObject.class, getClass().getClassLoader()
-			);
+			final AggregateDataObject testObject = ConfigurationData.createConfigurationObject(data, AggregateDataObject.class);
 			//
 			assertEquals(point[0] + "/noprefix", testObject.normalValue());
 			assertEquals(point[1] + "/noprefix", testObject.renamedValue());

@@ -99,9 +99,7 @@ public class EnumDataObjectTest {
 					"basicValueFromText", point.name()
 			);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final EnumDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, EnumDataObject.class, getClass().getClassLoader()
-			);
+			final EnumDataObject testObject = ConfigurationData.createConfigurationObject(data, EnumDataObject.class);
 			assertEquals(point, testObject.basicValue());
 			assertEquals(point, testObject.basicValueFromText());
 		}
@@ -116,9 +114,7 @@ public class EnumDataObjectTest {
 					"complexValueFromText", point.name()
 			);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final EnumDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, EnumDataObject.class, getClass().getClassLoader()
-			);
+			final EnumDataObject testObject = ConfigurationData.createConfigurationObject(data, EnumDataObject.class);
 			assertEquals(point, testObject.complexValue());
 			assertEquals(point, testObject.complexValueFromText());
 		}
@@ -133,9 +129,7 @@ public class EnumDataObjectTest {
 					"systemEnumValueFromText", point.name()
 			);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final EnumDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, EnumDataObject.class, getClass().getClassLoader()
-			);
+			final EnumDataObject testObject = ConfigurationData.createConfigurationObject(data, EnumDataObject.class);
 			assertEquals(point, testObject.systemEnumValue());
 			assertEquals(point, testObject.systemEnumValueFromText());
 		}
@@ -144,9 +138,7 @@ public class EnumDataObjectTest {
 	@Test
 	public void shouldReturnAnnotatedDefaults() throws Exception {
 		final ConfigurationDataProvider noData = ConfigurationData.getMapDataProvider(Collections.<String, Object>emptyMap());
-		final EnumDataObject testObject = ConfigurationData.createConfigurationObject(
-				noData, EnumDataObject.class, getClass().getClassLoader()
-		);
+		final EnumDataObject testObject = ConfigurationData.createConfigurationObject(noData, EnumDataObject.class);
 		assertEquals(SimpleEnum.THREE, testObject.basicValueWithDefault());
 		assertEquals(ComplexEnum.BUSY, testObject.complexValueWithDefault());
 		assertEquals(TimeUnit.HOURS, testObject.systemEnumValueWithDefault());

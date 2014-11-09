@@ -49,9 +49,7 @@ public class StringDataObjectTest {
 		for (String point : points) {
 			final Map<String, ?> dataSource = ImmutableMap.of("normalText", point);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final TextDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, TextDataObject.class, getClass().getClassLoader()
-			);
+			final TextDataObject testObject = ConfigurationData.createConfigurationObject(data, TextDataObject.class);
 			assertEquals(point, testObject.normalText());
 		}
 	}
@@ -66,9 +64,7 @@ public class StringDataObjectTest {
 		for (String[] point : points) {
 			final Map<String, ?> dataSource = ImmutableMap.of("greetings", point[0]);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final TextDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, TextDataObject.class, getClass().getClassLoader()
-			);
+			final TextDataObject testObject = ConfigurationData.createConfigurationObject(data, TextDataObject.class);
 			assertEquals(point[2], testObject.greetings(point[1]));
 		}
 	}
@@ -84,9 +80,7 @@ public class StringDataObjectTest {
 		for (Object[] point : points) {
 			final Map<String, ?> dataSource = ImmutableMap.of("complexMessage", point[0]);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final TextDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, TextDataObject.class, getClass().getClassLoader()
-			);
+			final TextDataObject testObject = ConfigurationData.createConfigurationObject(data, TextDataObject.class);
 			assertEquals((String) point[1], testObject.complexMessage((String) point[2], (Integer) point[3], (BigDecimal) point[4]));
 		}
 	}

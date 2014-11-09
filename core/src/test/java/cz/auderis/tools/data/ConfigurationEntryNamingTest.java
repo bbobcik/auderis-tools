@@ -63,9 +63,7 @@ public class ConfigurationEntryNamingTest {
 			dataSource.put("isEnabled", !((Boolean) dataPoint[1]));
 			dataSource.put("getCount", 1+((Integer) dataPoint[2]));
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final TestDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, TestDataObject.class, getClass().getClassLoader()
-			);
+			final TestDataObject testObject = ConfigurationData.createConfigurationObject(data, TestDataObject.class);
 			assertEquals(dataPoint[0], testObject.getName());
 			assertEquals((boolean) (Boolean) dataPoint[1], testObject.isEnabled());
 			assertEquals((int) (Integer) dataPoint[2], testObject.getCount());
@@ -87,9 +85,7 @@ public class ConfigurationEntryNamingTest {
 			dataSource.put("getId", dataPoint[4]);
 			dataSource.put("id", "XXX" + dataPoint[4]);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final TestDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, TestDataObject.class, getClass().getClassLoader()
-			);
+			final TestDataObject testObject = ConfigurationData.createConfigurationObject(data, TestDataObject.class);
 			assertEquals(dataPoint[0], testObject.getterName());
 			assertEquals((boolean) (Boolean) dataPoint[1], testObject.isystemActive());
 			assertEquals((int) (Integer) dataPoint[2], testObject.isDelta());

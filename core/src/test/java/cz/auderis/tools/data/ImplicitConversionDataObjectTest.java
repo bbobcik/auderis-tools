@@ -59,9 +59,7 @@ public class ImplicitConversionDataObjectTest {
 		for (Object[] dataPoint : dataPoints) {
 			final Map<String, Object> dataSource = ImmutableMap.of("color", dataPoint[0]);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final TestDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, TestDataObject.class, getClass().getClassLoader()
-			);
+			final TestDataObject testObject = ConfigurationData.createConfigurationObject(data, TestDataObject.class);
 			assertEquals(dataPoint[1], testObject.getColor());
 		}
 	}
@@ -75,9 +73,7 @@ public class ImplicitConversionDataObjectTest {
 		for (Object[] dataPoint : dataPoints) {
 			final Map<String, Object> dataSource = ImmutableMap.of("format", dataPoint[0]);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final TestDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, TestDataObject.class, getClass().getClassLoader()
-			);
+			final TestDataObject testObject = ConfigurationData.createConfigurationObject(data, TestDataObject.class);
 			final MessageFormat fmt = testObject.getFormat();
 			assertNotNull(fmt);
 			final String fmtResult = fmt.format(new String[]{"X"}, new StringBuffer(), null).toString();
@@ -94,9 +90,7 @@ public class ImplicitConversionDataObjectTest {
 		for (Object[] dataPoint : dataPoints) {
 			final Map<String, Object> dataSource = ImmutableMap.of("dateFormat", dataPoint[0]);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final TestDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, TestDataObject.class, getClass().getClassLoader()
-			);
+			final TestDataObject testObject = ConfigurationData.createConfigurationObject(data, TestDataObject.class);
 			final DateFormat dateFmt = testObject.getDateFormat();
 			assertNotNull(dateFmt);
 			final String textDate = (String) dataPoint[1];
@@ -115,9 +109,7 @@ public class ImplicitConversionDataObjectTest {
 		for (Object[] dataPoint : dataPoints) {
 			final Map<String, Object> dataSource = ImmutableMap.of("userLocale", dataPoint[0]);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final TestDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, TestDataObject.class, getClass().getClassLoader()
-			);
+			final TestDataObject testObject = ConfigurationData.createConfigurationObject(data, TestDataObject.class);
 			assertEquals(dataPoint[1], testObject.userLocale());
 		}
 	}

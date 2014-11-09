@@ -67,9 +67,7 @@ public class PluginDataObjectTest {
 					"theUUID", point[4]
 			);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final CorePluginDataObject testObject = ConfigurationData.createConfigurationObject(
-					data, CorePluginDataObject.class, getClass().getClassLoader()
-			);
+			final CorePluginDataObject testObject = ConfigurationData.createConfigurationObject(data, CorePluginDataObject.class);
 			assertTrue(testObject.thePattern() instanceof Pattern);
 			assertTrue(testObject.inetAddress() instanceof InetAddress);
 			assertTrue(testObject.inetAddressIPv4() instanceof InetAddress);
@@ -93,9 +91,7 @@ public class PluginDataObjectTest {
 				"resultB", this
 		);
 		final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-		final MultiPluginDataObject testObject = ConfigurationData.createConfigurationObject(
-				data, MultiPluginDataObject.class, getClass().getClassLoader()
-		);
+		final MultiPluginDataObject testObject = ConfigurationData.createConfigurationObject(data, MultiPluginDataObject.class);
 		assertNotNull(testObject.resultA());
 		assertNotNull(testObject.resultB());
 		//

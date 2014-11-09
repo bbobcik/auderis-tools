@@ -50,8 +50,42 @@ public final class ConfigurationData {
 		}
 		final Class<?>[] interfaces = { targetClass };
 		final ConfigurationDataAccessProxyHandler proxyHandler = new ConfigurationDataAccessProxyHandler(dataProvider);
-		final T proxy = (T) Proxy.newProxyInstance(clsLoader, interfaces, proxyHandler);
-		return proxy;
+		Exception firstFailure = null;
+		// First try the provided classloader
+		if (null != clsLoader) {
+			try {
+				final T proxy = (T) Proxy.newProxyInstance(clsLoader, interfaces, proxyHandler);
+				return proxy;
+			} catch (Exception e) {
+				// Consume exception and use fallback classloader
+				firstFailure = e;
+			}
+		}
+		// Try the classloader associated with the target class (if different from the provided one)
+		final ClassLoader targetClassLoader = targetClass.getClassLoader();
+		if (targetClassLoader != clsLoader) {
+			try {
+				final T proxy = (T) Proxy.newProxyInstance(targetClassLoader, interfaces, proxyHandler);
+				return proxy;
+			} catch (Exception e) {
+				// Consume exception and go to next fallback classloader
+				if (null == firstFailure) {
+					firstFailure = e;
+				}
+			}
+		}
+		// As the last resort, try to use the classloader from current thread context
+		final ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			final T proxy = (T) Proxy.newProxyInstance(contextLoader, interfaces, proxyHandler);
+			return proxy;
+		} catch (Exception e) {
+			// Silently ignored
+			if (null == firstFailure) {
+				firstFailure = e;
+			}
+		}
+		throw new IllegalArgumentException("cannot create proxy class", firstFailure);
 	}
 
 	public static <T> T createConfigurationObject(ConfigurationDataProvider dataProvider, Class<T> targetClass) {
