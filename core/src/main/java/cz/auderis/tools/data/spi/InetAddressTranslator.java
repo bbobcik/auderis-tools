@@ -16,6 +16,8 @@
 
 package cz.auderis.tools.data.spi;
 
+import cz.auderis.tools.data.DataTranslatorContext;
+
 import java.net.InetAddress;
 
 /**
@@ -36,7 +38,7 @@ public class InetAddressTranslator extends SingleTargetClassTranslator {
 	}
 
 	@Override
-	protected Object translate(Object source) {
+	protected Object translate(Object source, DataTranslatorContext context) {
 		if (source instanceof String) {
 			final String textAddr = (String) source;
 			try {

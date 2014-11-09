@@ -16,6 +16,10 @@
 
 package cz.auderis.tools.data.spi;
 
+import cz.auderis.tools.data.DataTranslatorContext;
+import cz.auderis.tools.data.annotation.PatternMode;
+
+import java.lang.reflect.AnnotatedElement;
 import java.util.regex.Pattern;
 
 /**
@@ -36,16 +40,24 @@ public class PatternTranslator extends SingleTargetClassTranslator {
 	}
 
 	@Override
-	protected Object translate(Object source) {
+	protected Object translate(Object source, DataTranslatorContext context) {
 		if (source instanceof String) {
+			final int regexFlags = determinePatternMode(context);
 			try {
-				final Pattern pattern = Pattern.compile((String) source);
+				final Pattern pattern = Pattern.compile((String) source, regexFlags);
 				return pattern;
 			} catch (Exception e) {
 				// Exception consumed
 			}
 		}
 		return null;
+	}
+
+	private int determinePatternMode(DataTranslatorContext context) {
+		final AnnotatedElement element = (null != context) ? context.getTargetElement() : null;
+		final PatternMode modeAnnotation = (element != null) ? element.getAnnotation(PatternMode.class) : null;
+		final int mode = (null != modeAnnotation) ? modeAnnotation.value() : 0;
+		return mode;
 	}
 
 }

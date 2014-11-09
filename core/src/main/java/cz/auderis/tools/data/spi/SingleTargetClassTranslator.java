@@ -17,8 +17,7 @@
 package cz.auderis.tools.data.spi;
 
 import cz.auderis.tools.data.DataTranslator;
-
-import java.lang.reflect.AnnotatedElement;
+import cz.auderis.tools.data.DataTranslatorContext;
 
 /**
  * {@code SingleTargetClassTranslator}
@@ -28,17 +27,16 @@ import java.lang.reflect.AnnotatedElement;
  */
 public abstract class SingleTargetClassTranslator implements DataTranslator {
 
-	protected final Class supportedClass;
+	protected final Class<?> supportedClass;
 
-	protected SingleTargetClassTranslator(Class supportedClass) {
+	protected SingleTargetClassTranslator(Class<?> supportedClass) {
 		this.supportedClass = supportedClass;
 	}
 
-	protected abstract Object translate(Object source);
+	protected abstract Object translate(Object source, DataTranslatorContext context);
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public int getTargetClassSupportPriority(Class targetClass) {
+	public int getTargetClassSupportPriority(Class<?> targetClass) {
 		if (null == targetClass) {
 			throw new NullPointerException();
 		} else if (supportedClass.isAssignableFrom(targetClass)) {
@@ -47,9 +45,8 @@ public abstract class SingleTargetClassTranslator implements DataTranslator {
 		return PRIORITY_NOT_SUPPORTED;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Object translateToClass(Object source, Class targetClass, AnnotatedElement context, Object[] args) {
+	public Object translateToClass(Object source, Class<?> targetClass, DataTranslatorContext context) {
 		if (null == targetClass) {
 			throw new NullPointerException();
 		} else if (!supportedClass.isAssignableFrom(targetClass)) {
@@ -57,7 +54,7 @@ public abstract class SingleTargetClassTranslator implements DataTranslator {
 		} else if ((null == source) || supportedClass.isAssignableFrom(source.getClass())) {
 			return source;
 		}
-		final Object result = translate(source);
+		final Object result = translate(source, context);
 		return result;
 	}
 

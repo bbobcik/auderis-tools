@@ -29,7 +29,7 @@ import java.util.Map;
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-public class ConfigurationData {
+public final class ConfigurationData {
 
 	public static ConfigurationDataProvider getSystemPropertyDataProvider() {
 		return SystemPropertyDataProvider.instance();
@@ -56,6 +56,10 @@ public class ConfigurationData {
 
 	public static <T> T createConfigurationObject(ConfigurationDataProvider dataProvider, Class<T> targetClass) {
 		return createConfigurationObject(dataProvider, targetClass, null);
+	}
+
+	private ConfigurationData() {
+		throw new AssertionError();
 	}
 
 }

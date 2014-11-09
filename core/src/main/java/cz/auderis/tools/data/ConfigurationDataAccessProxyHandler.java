@@ -16,17 +16,21 @@
 
 package cz.auderis.tools.data;
 
+import cz.auderis.tools.data.annotation.ConfigurationEntries;
 import cz.auderis.tools.data.annotation.ConfigurationEntryName;
-import cz.auderis.tools.data.annotation.ConfigurationEntryPrefix;
 import cz.auderis.tools.data.annotation.DefaultConfigurationEntryValue;
 
 import java.lang.ref.SoftReference;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,6 +45,7 @@ import java.util.concurrent.ConcurrentMap;
 public class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 
 	private static final String GETTER_PREFIX = "get";
+	private static final String GETTER_PREFIX_BOOLEAN = "is";
 	private static final Object NULL_CACHE_ENTRY = new Object();
 
 	private final ConfigurationDataProvider dataProvider;
@@ -110,7 +115,7 @@ public class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 		}
 		final Object pluginResult = tryPluginTranslator(sourceValue, returnType, method, args);
 		if (null != pluginResult) {
-			return pluginResult;
+			return (DataTranslator.NULL_OBJECT != pluginResult) ? pluginResult : null;
 		}
 		final Object constructedResult = tryConstruct(sourceValue, returnType, args);
 		if (null != constructedResult) {
@@ -146,11 +151,10 @@ public class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 		return sourceValue.toString();
 	}
 
-	private Object tryPluginTranslator(Object sourceValue, Class targetClass, AnnotatedElement context, Object[] args) {
+	private Object tryPluginTranslator(Object sourceValue, Class targetClass, AnnotatedElement element, Object[] args) {
 		final ServiceLoader<DataTranslator> translators = ServiceLoader.load(DataTranslator.class);
 		final Iterator<DataTranslator> translatorIterator = translators.iterator();
-		DataTranslator selectedTranslator = null;
-		int selectedPriority = DataTranslator.PRIORITY_NOT_SUPPORTED;
+		final List<TranslatorCandidate> applicableTranslators = new ArrayList<TranslatorCandidate>(2);
 		while (true) {
 			boolean hasNext;
 			try {
@@ -164,20 +168,27 @@ public class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 			try {
 				final DataTranslator translator = translatorIterator.next();
 				final int supportPriority = translator.getTargetClassSupportPriority(targetClass);
-				if (supportPriority > selectedPriority) {
-					selectedPriority = supportPriority;
-					selectedTranslator = translator;
+				if (supportPriority > DataTranslator.PRIORITY_NOT_SUPPORTED) {
+					final TranslatorCandidate candidate = new TranslatorCandidate(translator, supportPriority);
+					applicableTranslators.add(candidate);
 				}
 			} catch (Exception e) {
 				// Silently ignored
 			}
 		}
-		if (null != selectedTranslator) {
-			try {
-				final Object result = selectedTranslator.translateToClass(sourceValue, targetClass, context, args);
-				return result;
-			} catch (Exception e) {
-				// Silently ignored
+		if (!applicableTranslators.isEmpty()) {
+			Collections.sort(applicableTranslators);
+			final DataTranslatorContext context = new DataTranslatorContextImpl(element, args);
+			for (TranslatorCandidate candidate : applicableTranslators) {
+				try {
+					final DataTranslator selectedTranslator = candidate.translator;
+					final Object result = selectedTranslator.translateToClass(sourceValue, targetClass, context);
+					if (null != result) {
+						return result;
+					}
+				} catch (Exception e) {
+					// Silently ignored
+				}
 			}
 		}
 		return null;
@@ -189,8 +200,10 @@ public class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 		}
 		try {
 			if (null == args) {
-				final Constructor<?> constructor = returnType.getConstructor(sourceValue.getClass());
-				final Object result = constructor.newInstance(sourceValue);
+				final Object[] paramRef = { sourceValue };
+				final Constructor<?> constructor = findSingleArgumentConstructor(returnType, paramRef);
+				// Use value from paramRef in case it was necessary to convert the source value
+				final Object result = constructor.newInstance(paramRef[0]);
 				return result;
 			}
 			// More complex case - append method arguments
@@ -223,6 +236,49 @@ public class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 			}
 		} catch (Exception e) {
 			// Silently ignored
+		}
+		return null;
+	}
+
+	private Constructor<?> findSingleArgumentConstructor(Class<?> type, Object[] paramRef) {
+		final Object param = paramRef[0];
+		final Class<?> paramClass = param.getClass();
+		try {
+			final Constructor<?> constructor = type.getConstructor(paramClass);
+			return constructor;
+		} catch (NoSuchMethodException e) {
+			// Silently ignored
+		}
+		// If the paramClass represents a primitive value, try to use the boxed variant
+		// (or vice versa)
+		final Class<?> altParamClass = StandardJavaTranslator.instance().switchPrimitiveAndBoxedType(paramClass);
+		if (null != altParamClass) {
+			try {
+				final Constructor<?> constructor = type.getConstructor(altParamClass);
+				return constructor;
+			} catch (NoSuchMethodException e) {
+				// Silently ignored
+			}
+		}
+		// Try other strategies only if the parameter is a string
+		if (String.class == paramClass) {
+			final String textParam = (String) param;
+			final StandardJavaTranslator stdTranslator = StandardJavaTranslator.instance();
+			for (Constructor<?> candidate : type.getConstructors()) {
+				final Class<?>[] candidateArgTypes = candidate.getParameterTypes();
+				if (1 != candidateArgTypes.length) {
+					continue;
+				}
+				final Class<?> argType = candidateArgTypes[0];
+				// Try to convert the parameter into primitive value
+				if (stdTranslator.isPrimitiveOrBoxed(argType)) {
+					final Object convertedParam = stdTranslator.translatePrimitive(textParam, argType);
+					if (null != convertedParam) {
+						paramRef[0] = convertedParam;
+						return candidate;
+					}
+				}
+			}
 		}
 		return null;
 	}
@@ -271,19 +327,23 @@ public class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 		}
 		// There is no annotation present or the name is empty, derive name from method
 		final String methodName = method.getName();
-		final String keyName = trimOptionalGetterPrefix(methodName);
+		final boolean booleanGetter = isBasicBooleanGetter(method);
+		final String keyName = trimOptionalGetterPrefix(methodName, booleanGetter);
 		return keyPrefix + keyName;
 	}
 
-	private String getResourceKeyPrefix(Method method) {
+	private String getResourceKeyPrefix(Member method) {
 		final Class<?> declaringClass = method.getDeclaringClass();
-		final ConfigurationEntryPrefix prefixAnnotation = declaringClass.getAnnotation(ConfigurationEntryPrefix.class);
+		final ConfigurationEntries prefixAnnotation = declaringClass.getAnnotation(ConfigurationEntries.class);
 		if (null == prefixAnnotation) {
 			return "";
 		}
-		final String explicitPrefix = prefixAnnotation.value();
-		StringBuilder resultPrefix = new StringBuilder();
+		final String explicitPrefix = prefixAnnotation.prefix();
 		if ((null == explicitPrefix) || explicitPrefix.trim().isEmpty()) {
+			return "";
+		}
+		final StringBuilder resultPrefix = new StringBuilder();
+		if (ConfigurationEntries.CLASS_NAME_PREFIX.equals(explicitPrefix)) {
 			resultPrefix.append(declaringClass.getSimpleName());
 		} else {
 			resultPrefix.append(explicitPrefix);
@@ -294,17 +354,70 @@ public class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 		return resultPrefix.toString();
 	}
 
-	private String trimOptionalGetterPrefix(String methodName) {
-		if (!methodName.startsWith(GETTER_PREFIX)) {
+	private String trimOptionalGetterPrefix(String methodName, boolean considerBooleanPrefix) {
+		final String prefix;
+		if (methodName.startsWith(GETTER_PREFIX)) {
+			prefix = GETTER_PREFIX;
+		} else if (considerBooleanPrefix && methodName.startsWith(GETTER_PREFIX_BOOLEAN)) {
+			prefix = GETTER_PREFIX_BOOLEAN;
+		} else {
 			return methodName;
 		}
-		final String propertyName = methodName.substring(GETTER_PREFIX.length());
+		final String propertyName = methodName.substring(prefix.length());
 		final char firstChar = propertyName.charAt(0);
 		if (!Character.isUpperCase(firstChar)) {
 			// This is probably not a getter
 			return methodName;
 		}
 		return Character.toLowerCase(firstChar) + propertyName.substring(1);
+	}
+
+	private boolean isBasicBooleanGetter(Method method) {
+		final Class<?> resultType = method.getReturnType();
+		if (Boolean.TYPE != resultType) {
+			return false;
+		} else if (0 != method.getParameterTypes().length) {
+			return false;
+		}
+		return true;
+	}
+
+	protected static final class TranslatorCandidate implements Comparable<TranslatorCandidate> {
+
+		final DataTranslator translator;
+		final int priority;
+
+		public TranslatorCandidate(DataTranslator translator, int priority) {
+			this.translator = translator;
+			this.priority = priority;
+		}
+
+		@Override
+		public int compareTo(TranslatorCandidate other) {
+			return other.priority - this.priority;
+		}
+	}
+
+
+	protected static final class DataTranslatorContextImpl implements DataTranslatorContext {
+
+		private final AnnotatedElement element;
+		private final Object[] arguments;
+
+		public DataTranslatorContextImpl(AnnotatedElement element, Object[] arguments) {
+			this.element = element;
+			this.arguments = arguments;
+		}
+
+		@Override
+		public AnnotatedElement getTargetElement() {
+			return element;
+		}
+
+		@Override
+		public Object[] getTargetArguments() {
+			return arguments;
+		}
 	}
 
 }

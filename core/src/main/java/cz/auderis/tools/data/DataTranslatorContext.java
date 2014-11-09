@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.data.annotation;
+package cz.auderis.tools.data;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedElement;
 
 /**
+ * {@code DataTranslatorContext}
+ *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ConfigurationEntryPrefix {
+public interface DataTranslatorContext {
 
-	String value() default "";
+	AnnotatedElement getTargetElement();
+
+	Object[] getTargetArguments();
 
 }

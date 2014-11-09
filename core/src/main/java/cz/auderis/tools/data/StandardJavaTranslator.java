@@ -30,17 +30,26 @@ import java.util.Map;
 final class StandardJavaTranslator {
 
 	private static final StandardJavaTranslator INSTANCE = new StandardJavaTranslator();
-	private final Map<Class, PrimitiveTranslator> primitiveTranslatorMap;
+	private final Map<Class<?>, PrimitiveTranslator> primitiveTranslatorMap;
+	private final Map<Class<?>, Class<?>> primitiveToBoxedMap;
+	private final Map<Class<?>, Class<?>> boxedToPrimitiveMap;
 
 	static StandardJavaTranslator instance() {
 		return INSTANCE;
 	}
 
-	boolean isPrimitiveOrBoxed(Class targetType) {
+	boolean isPrimitiveOrBoxed(Class<?> targetType) {
 		return primitiveTranslatorMap.containsKey(targetType);
 	}
 
-	Object translatePrimitive(Object source, Class resourceType) {
+	Class<?> switchPrimitiveAndBoxedType(Class<?> type) {
+		if (type.isPrimitive()) {
+			return primitiveToBoxedMap.get(type);
+		}
+		return boxedToPrimitiveMap.get(type);
+	}
+
+	Object translatePrimitive(Object source, Class<?> resourceType) {
 		final PrimitiveTranslator translator = primitiveTranslatorMap.get(resourceType);
 		if (null == translator) {
 			return null;
@@ -78,12 +87,18 @@ final class StandardJavaTranslator {
 	}
 
 	private StandardJavaTranslator() {
-		primitiveTranslatorMap = new HashMap<Class, PrimitiveTranslator>();
+		primitiveTranslatorMap = new HashMap<Class<?>, PrimitiveTranslator>();
+		primitiveToBoxedMap = new HashMap<Class<?>, Class<?>>();
+		boxedToPrimitiveMap = new HashMap<Class<?>, Class<?>>();
 		for (PrimitiveTranslator tx : PrimitiveTranslator.values()) {
-			final List<Class> supportedClasses = tx.getSupportedClasses();
-			for (Class supportedClass : supportedClasses) {
+			final List<Class<?>> supportedClasses = tx.getSupportedClasses();
+			for (Class<?> supportedClass : supportedClasses) {
 				primitiveTranslatorMap.put(supportedClass, tx);
 			}
+			final Class<?> primitiveType = supportedClasses.get(1);
+			final Class<?> boxedType = supportedClasses.get(0);
+			primitiveToBoxedMap.put(primitiveType, boxedType);
+			boxedToPrimitiveMap.put(boxedType, primitiveType);
 		}
 	}
 
@@ -92,8 +107,8 @@ final class StandardJavaTranslator {
 
 		BOOLEAN {
 			@Override
-			public List<Class> getSupportedClasses() {
-				return Arrays.asList(Boolean.class, (Class) Boolean.TYPE);
+			public List<Class<?>> getSupportedClasses() {
+				return Arrays.asList(Boolean.class, (Class<?>) Boolean.TYPE);
 			}
 
 			@Override
@@ -109,8 +124,8 @@ final class StandardJavaTranslator {
 
 		BYTE {
 			@Override
-			public List<Class> getSupportedClasses() {
-				return Arrays.asList(Byte.class, (Class) Byte.TYPE);
+			public List<Class<?>> getSupportedClasses() {
+				return Arrays.asList(Byte.class, (Class<?>) Byte.TYPE);
 			}
 
 			@Override
@@ -126,8 +141,8 @@ final class StandardJavaTranslator {
 
 		SHORT {
 			@Override
-			public List<Class> getSupportedClasses() {
-				return Arrays.asList(Short.class, (Class) Short.TYPE);
+			public List<Class<?>> getSupportedClasses() {
+				return Arrays.asList(Short.class, (Class<?>) Short.TYPE);
 			}
 
 			@Override
@@ -143,8 +158,8 @@ final class StandardJavaTranslator {
 
 		INT {
 			@Override
-			public List<Class> getSupportedClasses() {
-				return Arrays.asList(Integer.class, (Class) Integer.TYPE);
+			public List<Class<?>> getSupportedClasses() {
+				return Arrays.asList(Integer.class, (Class<?>) Integer.TYPE);
 			}
 
 			@Override
@@ -160,8 +175,8 @@ final class StandardJavaTranslator {
 
 		LONG {
 			@Override
-			public List<Class> getSupportedClasses() {
-				return Arrays.asList(Long.class, (Class) Long.TYPE);
+			public List<Class<?>> getSupportedClasses() {
+				return Arrays.asList(Long.class, (Class<?>) Long.TYPE);
 			}
 
 			@Override
@@ -177,8 +192,8 @@ final class StandardJavaTranslator {
 
 		FLOAT {
 			@Override
-			public List<Class> getSupportedClasses() {
-				return Arrays.asList(Float.class, (Class) Float.TYPE);
+			public List<Class<?>> getSupportedClasses() {
+				return Arrays.asList(Float.class, (Class<?>) Float.TYPE);
 			}
 
 			@Override
@@ -194,8 +209,8 @@ final class StandardJavaTranslator {
 
 		DOUBLE {
 			@Override
-			public List<Class> getSupportedClasses() {
-				return Arrays.asList(Double.class, (Class) Double.TYPE);
+			public List<Class<?>> getSupportedClasses() {
+				return Arrays.asList(Double.class, (Class<?>) Double.TYPE);
 			}
 
 			@Override
@@ -210,7 +225,7 @@ final class StandardJavaTranslator {
 		},
 		;
 
-		public abstract List<Class> getSupportedClasses();
+		public abstract List<Class<?>> getSupportedClasses();
 
 		public abstract Object defaultValue();
 

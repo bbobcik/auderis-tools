@@ -24,6 +24,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * This method-level annotation is used for specification of
+ * explicit configuration entry name. If this annotation is not
+ * present, by default the name of the method with optional getter
+ * prefix stripped is used).
+ * <p/>
+ * The annotation may define optional aliases, if the configuration
+ * entry may be known under multiple names.
+ *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
@@ -33,8 +41,28 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ConfigurationEntryName {
 
+	/**
+	 * Declares explicit primary name of the configuration entry.
+	 * <p/>
+	 * If the value is empty string or the annotation is not present,
+	 * the primary name is derived from the method name with optional getter
+	 * prefix intelligently stripped (prefix "get" is removed only if followed
+	 * by capital letter), as shown in the following examples:
+	 * <ul>
+	 *     <li>{@code getSimpleProperty()} is transformed to {@code simpleProperty}</li>
+	 *     <li>{@code getterOfInt()} is not transformed, i.e. the name is {@code getterOfInt}</li>
+	 * </ul>
+	 *
+	 * @return explicit name of configuration entry
+	 */
 	String name() default "";
 
+	/**
+	 * Declares configuration entry aliases that will be searched
+	 * if no configuration entry with the primary name is found.
+	 *
+	 * @return array of configuration entry aliases
+	 */
 	String[] alias() default { };
 
 }

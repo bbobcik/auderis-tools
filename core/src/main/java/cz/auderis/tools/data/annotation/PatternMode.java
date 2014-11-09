@@ -14,40 +14,21 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.data.spi;
+package cz.auderis.tools.data.annotation;
 
-import cz.auderis.tools.data.DataTranslatorContext;
-
-import java.util.UUID;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * {@code UuidTranslator}
- *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-public class UuidTranslator extends SingleTargetClassTranslator {
+@Target( ElementType.METHOD )
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PatternMode {
 
-	public UuidTranslator() {
-		super(UUID.class);
-	}
-
-	@Override
-	public String getId() {
-		return "UUID translator";
-	}
-
-	@Override
-	protected Object translate(Object source, DataTranslatorContext context) {
-		if (source instanceof String) {
-			try {
-				final UUID result = UUID.fromString((String) source);
-				return result;
-			} catch (Exception e) {
-				// Exception silently consumed
-			}
-		}
-		return null;
-	}
+	int value() default 0;
 
 }

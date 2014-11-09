@@ -17,8 +17,8 @@
 package cz.auderis.tools.data;
 
 import com.google.common.collect.ImmutableMap;
+import cz.auderis.tools.data.annotation.ConfigurationEntries;
 import cz.auderis.tools.data.annotation.ConfigurationEntryName;
-import cz.auderis.tools.data.annotation.ConfigurationEntryPrefix;
 import org.junit.Test;
 
 import java.util.Map;
@@ -41,7 +41,25 @@ public class DataObjectAnnotationTest {
 		@ConfigurationEntryName(name = "nonexistent", alias = {"alias.x.value", "alias.2.value"}) String aliasedValueB();
 	}
 
-	@ConfigurationEntryPrefix
+	@ConfigurationEntries( /* no prefix specification */ )
+	public static interface DataObject2 {
+		String normalValue();
+		@ConfigurationEntryName(name = "renamed.value") String renamedValue();
+		@ConfigurationEntryName(name = "") String valueWithEmptyName();
+		@ConfigurationEntryName(name = "nonexistent", alias = {"alias.1.value"}) String aliasedValue();
+		@ConfigurationEntryName(name = "nonexistent", alias = {"alias.x.value", "alias.2.value"}) String aliasedValueB();
+	}
+
+	@ConfigurationEntries(prefix = "")
+	public static interface DataObject3 {
+		String normalValue();
+		@ConfigurationEntryName(name = "renamed.value") String renamedValue();
+		@ConfigurationEntryName(name = "") String valueWithEmptyName();
+		@ConfigurationEntryName(name = "nonexistent", alias = {"alias.1.value"}) String aliasedValue();
+		@ConfigurationEntryName(name = "nonexistent", alias = {"alias.x.value", "alias.2.value"}) String aliasedValueB();
+	}
+
+	@ConfigurationEntries(prefix = ConfigurationEntries.CLASS_NAME_PREFIX)
 	public static interface PrefixedDataObject1 {
 		String normalValue2();
 		@ConfigurationEntryName(name = "renamed.value") String renamedValue2();
@@ -50,7 +68,7 @@ public class DataObjectAnnotationTest {
 		@ConfigurationEntryName(name = "nonexistent", alias = {"alias.x.value", "alias.2.value"}) String aliasedValueB2();
 	}
 
-	@ConfigurationEntryPrefix("le.prefix")
+	@ConfigurationEntries(prefix = "le.prefix")
 	public static interface PrefixedDataObject2 {
 		String normalValue3();
 		@ConfigurationEntryName(name = "renamed.value") String renamedValue3();
@@ -90,6 +108,42 @@ public class DataObjectAnnotationTest {
 			assertEquals(point[2], testObject.valueWithEmptyName());
 			assertEquals(point[3], testObject.aliasedValue());
 			assertEquals(point[4], testObject.aliasedValueB());
+		}
+	}
+
+	@Test
+	public void shouldCorrectlyReturnEntriesWithoutPrefix() throws Exception {
+		final String[][] points = {
+				{ "norVal", "renVal", "emNamVal", "alias1", "alias2" },
+				{ "1", "2", "3", "4", "5" },
+		};
+		for (String[] point : points) {
+			final Map<String, String> dataSource = ImmutableMap.of(
+					"normalValue", point[0],
+					"renamed.value", point[1],
+					"valueWithEmptyName", point[2],
+					"alias.1.value", point[3],
+					"alias.2.value", point[4]
+			);
+			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
+			//
+			final DataObject2 testObject2 = ConfigurationData.createConfigurationObject(
+					data, DataObject2.class, getClass().getClassLoader()
+			);
+			assertEquals(point[0], testObject2.normalValue());
+			assertEquals(point[1], testObject2.renamedValue());
+			assertEquals(point[2], testObject2.valueWithEmptyName());
+			assertEquals(point[3], testObject2.aliasedValue());
+			assertEquals(point[4], testObject2.aliasedValueB());
+			//
+			final DataObject3 testObject3 = ConfigurationData.createConfigurationObject(
+					data, DataObject3.class, getClass().getClassLoader()
+			);
+			assertEquals(point[0], testObject3.normalValue());
+			assertEquals(point[1], testObject3.renamedValue());
+			assertEquals(point[2], testObject3.valueWithEmptyName());
+			assertEquals(point[3], testObject3.aliasedValue());
+			assertEquals(point[4], testObject3.aliasedValueB());
 		}
 	}
 
