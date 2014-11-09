@@ -27,29 +27,29 @@ import java.util.Map;
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-final class StandardJavaTranslator {
+public final class StandardJavaTranslator {
 
 	private static final StandardJavaTranslator INSTANCE = new StandardJavaTranslator();
 	private final Map<Class<?>, PrimitiveTranslator> primitiveTranslatorMap;
 	private final Map<Class<?>, Class<?>> primitiveToBoxedMap;
 	private final Map<Class<?>, Class<?>> boxedToPrimitiveMap;
 
-	static StandardJavaTranslator instance() {
+	public static StandardJavaTranslator instance() {
 		return INSTANCE;
 	}
 
-	boolean isPrimitiveOrBoxed(Class<?> targetType) {
+	public boolean isPrimitiveOrBoxed(Class<?> targetType) {
 		return primitiveTranslatorMap.containsKey(targetType);
 	}
 
-	Class<?> switchPrimitiveAndBoxedType(Class<?> type) {
+	public Class<?> switchPrimitiveAndBoxedType(Class<?> type) {
 		if (type.isPrimitive()) {
 			return primitiveToBoxedMap.get(type);
 		}
 		return boxedToPrimitiveMap.get(type);
 	}
 
-	Object translatePrimitive(Object source, Class<?> resourceType) {
+	public Object translatePrimitive(Object source, Class<?> resourceType) {
 		final PrimitiveTranslator translator = primitiveTranslatorMap.get(resourceType);
 		if (null == translator) {
 			return null;
@@ -69,7 +69,7 @@ final class StandardJavaTranslator {
 		}
 	}
 
-	Object translateEnum(Object sourceValue, Class<?> returnType) {
+	public Object translateEnum(Object sourceValue, Class<?> returnType) {
 		if (null == sourceValue) {
 			return null;
 		} else if (returnType.isAssignableFrom(sourceValue.getClass())) {
