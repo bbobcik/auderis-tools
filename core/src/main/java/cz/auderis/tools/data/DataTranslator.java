@@ -18,7 +18,8 @@ package cz.auderis.tools.data;
 
 /**
  * {@code DataTranslator} defines a mechanism by which an arbitrary object
- * is translated into an instance of a given class.
+ * is translated into an instance of a given class. Classes implementing
+ * this interface are discovered using standard {@link java.util.ServiceLoader}.
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
@@ -60,8 +61,8 @@ public interface DataTranslator {
 	 * translator. Positive values mean that the class is supported.
 	 * Unsupported classes are typically represented by
 	 * {@link #PRIORITY_NOT_SUPPORTED} constant.
-	 * <p/>
-	 * The translator that reports the highest priority will be used for the
+	 *
+	 * <p>The translator that reports the highest priority will be used for the
 	 * actual translation. If there are multiple translators with the same
 	 * maximum priority, the choice will be arbitrary.
 	 *
@@ -76,8 +77,8 @@ public interface DataTranslator {
 	/**
 	 * Attempts to translate an arbitrary object into an instance of {@code targetClass}.
 	 * If the translation couldn't be performed, {@code null} is returned.
-	 * <p/>
-	 * As the translation happens while preparing configuration data, the translator
+	 *
+	 * <p>As the translation happens while preparing configuration data, the translator
 	 * receives information about the context of translation.
 	 *
 	 * @param source non-null object that is to be translated

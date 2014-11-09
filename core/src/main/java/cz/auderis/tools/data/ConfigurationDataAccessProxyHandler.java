@@ -42,7 +42,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-public class ConfigurationDataAccessProxyHandler implements InvocationHandler {
+class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 
 	private static final String GETTER_PREFIX = "get";
 	private static final String GETTER_PREFIX_BOOLEAN = "is";

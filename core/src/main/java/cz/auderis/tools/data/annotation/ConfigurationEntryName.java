@@ -28,8 +28,8 @@ import java.lang.annotation.Target;
  * explicit configuration entry name. If this annotation is not
  * present, by default the name of the method with optional getter
  * prefix stripped is used).
- * <p/>
- * The annotation may define optional aliases, if the configuration
+ *
+ * <p>The annotation may define optional aliases, if the configuration
  * entry may be known under multiple names.
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
@@ -43,8 +43,8 @@ public @interface ConfigurationEntryName {
 
 	/**
 	 * Declares explicit primary name of the configuration entry.
-	 * <p/>
-	 * If the value is empty string or the annotation is not present,
+	 *
+	 * <p>If the value is empty string or the annotation is not present,
 	 * the primary name is derived from the method name with optional getter
 	 * prefix intelligently stripped (prefix "get" is removed only if followed
 	 * by capital letter), as shown in the following examples:

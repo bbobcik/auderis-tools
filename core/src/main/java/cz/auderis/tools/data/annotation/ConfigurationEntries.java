@@ -26,15 +26,15 @@ import java.lang.annotation.Target;
  * configuration entry access interface. This indication
  * is not required, i.e. interfaces without any class-level
  * annotation may be used for this purpose as well.
- * <p/>
- * The primary purpose of this annotation is a factoring of
+ *
+ * <p>The primary purpose of this annotation is a factoring of
  * common configuration entry name prefix to a single place. If
  * the prefix attribute is an empty string, no prefix will
  * be used. If the prefix is set to {@code CLASS_NAME_PREFIX},
  * the simple class name (without packages) will be used as a prefix.
- * <p/>
- * Example: Given the following interface
- * <code><pre>
+ *
+ * <p>Example: Given the following interface
+ * <pre>
  *     <i>{@literal @}ConfigurationEntries( prefix = "org.example" )</i>
  *     <b>public interface</b> TestInterface {
  *         String textValue();
@@ -42,9 +42,9 @@ import java.lang.annotation.Target;
  *         <i>{@literal @}ConfigurationEntryName( name = "system.enabled" )</i>
  *         <b>boolean</b> enabled();
  *     }
- * </pre></code>
+ * </pre>
  * the retrieved configuration entries will be:
- * <table>
+ * <table summary="">
  *     <tr><th>Access method</th><th>Configuration entry</th></tr>
  *     <tr><td>{@code textValue()}</td><td>{@code org.example.textValue}</td></tr>
  *     <tr><td>{@code numericValue()}</td><td>{@code org.example.numericValue}</td></tr>
