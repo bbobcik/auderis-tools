@@ -396,6 +396,21 @@ class ConfigurationDataAccessProxyHandler implements InvocationHandler {
 		public int compareTo(TranslatorCandidate other) {
 			return other.priority - this.priority;
 		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			final TranslatorCandidate candidate = (TranslatorCandidate) o;
+			if (priority != candidate.priority) return false;
+			if (!translator.equals(candidate.translator)) return false;
+			return true;
+		}
+
+		@Override
+		public int hashCode() {
+			return priority;
+		}
 	}
 
 

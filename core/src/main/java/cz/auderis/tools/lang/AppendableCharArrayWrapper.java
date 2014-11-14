@@ -17,6 +17,9 @@
 package cz.auderis.tools.lang;
 
 
+/**
+ * The type Appendable char array wrapper.
+ */
 public class AppendableCharArrayWrapper implements Appendable, CharSequence {
 
 	private final char[] target;
@@ -27,8 +30,14 @@ public class AppendableCharArrayWrapper implements Appendable, CharSequence {
 	private final char zeroReplacement;
 	private int offset;
 
-
-	public AppendableCharArrayWrapper(char[] wrappedArray, int offset, int length) {
+	/**
+	 * Instantiates a new Appendable char array wrapper.
+	 *
+	 * @param wrappedArray the wrapped array
+	 * @param offset the offset
+	 * @param length the length
+	 */
+	public AppendableCharArrayWrapper(char[] wrappedArray, int offset, int length, char zeroReplacement) {
 		if (null == wrappedArray) {
 			throw new NullPointerException();
 		}
@@ -44,11 +53,28 @@ public class AppendableCharArrayWrapper implements Appendable, CharSequence {
 		this.length = length;
 		this.maxIndex = minIndex + length - 1;
 		this.offset = minIndex;
-		this.zeroReplacement = ' ';
+		this.zeroReplacement = zeroReplacement;
 	}
 
+
+	/**
+	 * Instantiates a new Appendable char array wrapper.
+	 *
+	 * @param wrappedArray the wrapped array
+	 * @param offset the offset
+	 * @param length the length
+	 */
+	public AppendableCharArrayWrapper(char[] wrappedArray, int offset, int length) {
+		this(wrappedArray, offset, length, '\0');
+	}
+
+	/**
+	 * Instantiates a new Appendable char array wrapper.
+	 *
+	 * @param wrappedArray the wrapped array
+	 */
 	public AppendableCharArrayWrapper(char[] wrappedArray) {
-		this(wrappedArray, 0, (null != wrappedArray) ? wrappedArray.length : 0);
+		this(wrappedArray, 0, (null != wrappedArray) ? wrappedArray.length : 0, '\0');
 	}
 
 	@Override
@@ -102,6 +128,12 @@ public class AppendableCharArrayWrapper implements Appendable, CharSequence {
 		return target[minIndex + index];
 	}
 
+	/**
+	 * Sets char at.
+	 *
+	 * @param index the index
+	 * @param c the c
+	 */
 	public void setCharAt(int index, char c) {
 		if ((index < 0) || (index >= length)) {
 			throw new IndexOutOfBoundsException();
@@ -127,10 +159,20 @@ public class AppendableCharArrayWrapper implements Appendable, CharSequence {
 		return result;
 	}
 
+	/**
+	 * Gets current offset.
+	 *
+	 * @return the current offset
+	 */
 	public int getCurrentOffset() {
 		return offset - minIndex;
 	}
 
+	/**
+	 * Sets current offset.
+	 *
+	 * @param newOffset the new offset
+	 */
 	public void setCurrentOffset(int newOffset) {
 		if ((newOffset < 0) || (newOffset >= length)) {
 			throw new IndexOutOfBoundsException();
@@ -138,6 +180,11 @@ public class AppendableCharArrayWrapper implements Appendable, CharSequence {
 		offset = minIndex + newOffset;
 	}
 
+	/**
+	 * Clear void.
+	 *
+	 * @param clearChar the clear char
+	 */
 	public void clear(char clearChar) {
 		if ('\0' == clearChar) {
 			clearChar = zeroReplacement;
@@ -148,8 +195,11 @@ public class AppendableCharArrayWrapper implements Appendable, CharSequence {
 		offset = minIndex;
 	}
 
+	/**
+	 * Clear void.
+	 */
 	public void clear() {
-		clear('\0');
+		clear(zeroReplacement);
 	}
 
 }

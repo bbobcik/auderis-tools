@@ -80,7 +80,7 @@ public final class BoxedNumbers {
 	}
 
 	private static long toLong(Object value, Class<?> fromClass) {
-		long result = 0L;
+		final long result;
 		if (fromClass.equals(Byte.class)) {
 			result = ((Byte) value).longValue();
 		} else if (fromClass.equals(Short.class)) {
@@ -109,7 +109,7 @@ public final class BoxedNumbers {
 	}
 
 	private static double toDouble(Object value, Class<?> fromClass) {
-		double result = 0;
+		final double result;
 		if (fromClass.equals(Float.class)) {
 			result = ((Float) value).doubleValue();
 		} else {
