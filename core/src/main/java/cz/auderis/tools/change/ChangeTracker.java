@@ -18,18 +18,51 @@ package cz.auderis.tools.change;
 
 import java.util.Set;
 
+/**
+ * General interface for individual change tracking.
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public interface ChangeTracker {
 
+	/**
+	 * Determines whether any change has happened so far.
+	 *
+	 * @return {@code true} if a change was recorded
+	 */
 	boolean isChanged();
 
+	/**
+	 * Determines number of detected changes
+	 *
+	 * @return number of detected changes
+	 */
 	int getChangeCount();
 
+	/**
+	 * Returns a set of changed property names.
+	 *
+	 * @return set of changed property names
+	 */
 	Set<String> getChangedProperties();
 
+	/**
+	 * Marks a change without specific binding to a named property.
+	 */
 	void markChange();
 
+	/**
+	 * Marks a change in a named property.
+	 *
+	 * @param propertyName name of changed property
+	 */
 	void markChange(String propertyName);
 
+	/**
+	 * Reset the tracker to initial state, where there are no changes
+	 * recorded.
+	 */
 	void resetChanges();
 
 }
