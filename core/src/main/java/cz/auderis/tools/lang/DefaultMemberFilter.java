@@ -23,17 +23,46 @@ import java.lang.reflect.Modifier;
  * Default predicate for class members that selects all members
  * except static, final or synthetic ones.
  */
-public class DefaultMemberFilter implements MemberFilter {
+public enum DefaultMemberFilter implements MemberFilter {
 
-	@Override
-	public boolean accept(Member m, Class<?> declaringClass) {
-		final int memberType = m.getModifiers();
-		if (Modifier.isStatic(memberType) || Modifier.isFinal(memberType)) {
-			return false;
-		} else if (m.isSynthetic()) {
-			return false;
+	ALL_MEMBERS {
+		@Override
+		public boolean accept(Member m, Class<?> declaringClass, Class<?> queriedClass) {
+			return true;
 		}
-		return true;
-	}
+	},
+
+	NORMAL_FIELDS {
+		@Override
+		public boolean accept(Member m, Class<?> declaringClass, Class<?> queriedClass) {
+			final int memberType = m.getModifiers();
+			if (Modifier.isStatic(memberType) || Modifier.isFinal(memberType)) {
+				return false;
+			} else if (m.isSynthetic()) {
+				return false;
+			}
+			return true;
+		}
+	},
+
+	NORMAL_METHODS {
+		@Override
+		public boolean accept(Member m, Class<?> declaringClass, Class<?> queriedClass) {
+			final int memberType = m.getModifiers();
+			if (Modifier.isStatic(memberType)) {
+				return false;
+			} else if (m.isSynthetic()) {
+				return false;
+			}
+			return true;
+		}
+	},
+
+	TOP_LEVEL_MEMBERS {
+		@Override
+		public boolean accept(Member m, Class<?> declaringClass, Class<?> queriedClass) {
+			return declaringClass == queriedClass;
+		}
+	},
 
 }

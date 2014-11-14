@@ -40,4 +40,24 @@ public final class OtherPkgChildObject extends IntermediateObject {
 	static final int childStaticFinalPackageField = 0;
 	static final public int childStaticFinalPublicField = 0;
 
+	private int childNormalPrivateMethod() { return 1; }
+	protected int childNormalProtectedMethod() { return 1; }
+	int childNormalPackageMethod() { return 1; }
+	public int childNormalPublicMethod() { return 1; }
+
+	private final int childFinalPrivateMethod() { return 1; }
+	protected final int childFinalProtectedMethod() { return 1; }
+	final int childFinalPackageMethod() { return 1; }
+	public final int childFinalPublicMethod() { return 1; }
+
+	private static int childStaticPrivateMethod() { return 1; }
+	protected static int childStaticProtectedMethod() { return 1; }
+	static int childStaticPackageMethod() { return 1; }
+	public static int childStaticPublicMethod() { return 1; }
+
+	private static final int childStaticFinalPrivateMethod() { return 1; }
+	protected static final int childStaticFinalProtectedMethod() { return 1; }
+	static final int childStaticFinalPackageMethod() { return 1; }
+	public static final int childStaticFinalPublicMethod() { return 1; }
+
 }

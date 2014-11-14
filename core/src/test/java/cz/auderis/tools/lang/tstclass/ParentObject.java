@@ -38,4 +38,24 @@ public class ParentObject {
 	static final int parentStaticFinalPackageField = 0;
 	static final public int parentStaticFinalPublicField = 0;
 
+	private int parentNormalPrivateMethod() { return 1; }
+	protected int parentNormalProtectedMethod() { return 1; }
+	int parentNormalPackageMethod() { return 1; }
+	public int parentNormalPublicMethod() { return 1; }
+
+	private final int parentFinalPrivateMethod() { return 1; }
+	protected final int parentFinalProtectedMethod() { return 1; }
+	final int parentFinalPackageMethod() { return 1; }
+	public final int parentFinalPublicMethod() { return 1; }
+
+	private static int parentStaticPrivateMethod() { return 1; }
+	protected static int parentStaticProtectedMethod() { return 1; }
+	static int parentStaticPackageMethod() { return 1; }
+	public static int parentStaticPublicMethod() { return 1; }
+
+	private static final int parentStaticFinalPrivateMethod() { return 1; }
+	protected static final int parentStaticFinalProtectedMethod() { return 1; }
+	static final int parentStaticFinalPackageMethod() { return 1; }
+	public static final int parentStaticFinalPublicMethod() { return 1; }
+
 }

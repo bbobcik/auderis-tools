@@ -38,4 +38,24 @@ public class NormalObject {
 	static final int staticFinalPackageField = 0;
 	static final public int staticFinalPublicField = 0;
 
+	private int normalPrivateMethod() { return 1; }
+	protected int normalProtectedMethod() { return 1; }
+	int normalPackageMethod() { return 1; }
+	public int normalPublicMethod() { return 1; }
+
+	private final int finalPrivateMethod() { return 1; }
+	protected final int finalProtectedMethod() { return 1; }
+	final int finalPackageMethod() { return 1; }
+	public final int finalPublicMethod() { return 1; }
+
+	private static int staticPrivateMethod() { return 1; }
+	protected static int staticProtectedMethod() { return 1; }
+	static int staticPackageMethod() { return 1; }
+	public static int staticPublicMethod() { return 1; }
+
+	private static final int staticFinalPrivateMethod() { return 1; }
+	protected static final int staticFinalProtectedMethod() { return 1; }
+	static final int staticFinalPackageMethod() { return 1; }
+	public static final int staticFinalPublicMethod() { return 1; }
+
 }

@@ -28,10 +28,12 @@ public interface MemberFilter {
 	 * for further processing.
 	 *
 	 * @param m queried member
-	 * @param declaringClass class, that contains the member
+	 * @param declaringClass class that contains the member
+	 * @param queriedClass class that is examined; {@code declaringClass} may be either {@code queriedClass}
+	 * or one of its ancestor classes
 	 * @return {@code true} if the member can be accepted
 	 * @throws java.lang.NullPointerException if any of the arguments is {@code null}
 	 */
-	boolean accept(Member m, Class<?> declaringClass);
+	boolean accept(Member m, Class<?> declaringClass, Class<?> queriedClass);
 
 }

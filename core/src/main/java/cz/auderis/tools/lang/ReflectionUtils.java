@@ -17,9 +17,15 @@
 package cz.auderis.tools.lang;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Utility class that simplifies common reflective operations
@@ -39,33 +45,65 @@ public final class ReflectionUtils {
 	 * @return list of normal non-final fields defined in the target class
 	 * @see cz.auderis.tools.lang.DefaultMemberFilter
 	 */
-	public static List<Field> getFields(Class<?> cls) {
-		return getFields(cls, DEFAULT_FILTER);
+	public static List<Field> getNormalFields(Class<?> cls) {
+		return getFields(cls, DefaultMemberFilter.NORMAL_FIELDS);
 	}
 
 	/**
 	 * Gets fields.
 	 *
 	 * @param cls the cls
-	 * @param filter the filter
+	 * @param filters one or more filters
 	 * @return the fields
 	 */
-	public static List<Field> getFields(Class<?> cls, MemberFilter filter) {
+	public static List<Field> getFields(Class<?> cls, MemberFilter... filters) {
 		if (null == cls) {
 			throw new NullPointerException();
-		} else if (null == filter) {
-			filter = DEFAULT_FILTER;
+		} else if (null == filters) {
+			filters = EMPTY_FILTER_ARRAY;
 		}
 		final List<Field> result = new ArrayList<Field>();
-		while (null != cls) {
-			final Field[] classFields = cls.getDeclaredFields();
+		Class<?> currCls = cls;
+		while (null != currCls) {
+			final Field[] classFields = currCls.getDeclaredFields();
+			FIELD_ITERATION:
 			for (Field f : classFields) {
-				if (!filter.accept(f, cls)) {
-					continue;
+				for (MemberFilter filter : filters) {
+					if (!filter.accept(f, currCls, cls)) {
+						continue FIELD_ITERATION;
+					}
 				}
 				result.add(f);
 			}
-			cls = cls.getSuperclass();
+			currCls = currCls.getSuperclass();
+		}
+		return result;
+	}
+
+	public static List<Method> getNormalMethods(Class<?> cls) {
+		return getMethods(cls, DefaultMemberFilter.NORMAL_METHODS);
+	}
+
+	public static List<Method> getMethods(Class<?> cls, MemberFilter... filters) {
+		if (null == cls) {
+			throw new NullPointerException();
+		} else if (null == filters) {
+			filters = EMPTY_FILTER_ARRAY;
+		}
+		final List<Method> result = new ArrayList<Method>();
+		Class<?> currCls = cls;
+		while (null != currCls) {
+			final Method[] classMethods = currCls.getDeclaredMethods();
+			METHOD_ITERATION:
+			for (Method m : classMethods) {
+				for (MemberFilter filter : filters) {
+					if (!filter.accept(m, currCls, cls)) {
+						continue METHOD_ITERATION;
+					}
+				}
+				result.add(m);
+			}
+			currCls = currCls.getSuperclass();
 		}
 		return result;
 	}
@@ -98,10 +136,25 @@ public final class ReflectionUtils {
 		return null;
 	}
 
+	public static Set<String> getMemberNames(Collection<? extends Member> memberCollection) {
+		if (null == memberCollection) {
+			throw new NullPointerException();
+		} else if (memberCollection.isEmpty()) {
+			return Collections.emptySet();
+		}
+		final Set<String> result = new HashSet<String>(memberCollection.size());
+		for (Member member : memberCollection) {
+			if (null != member) {
+				result.add(member.getName());
+			}
+		}
+		return result;
+	}
+
 	private ReflectionUtils() {
 		throw new AssertionError();
 	}
 
-	private static final MemberFilter DEFAULT_FILTER = new DefaultMemberFilter();
+	private static final MemberFilter[] EMPTY_FILTER_ARRAY = { };
 
 }

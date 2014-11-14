@@ -38,4 +38,24 @@ public class IntermediateObject extends ParentObject {
 	static final int interStaticFinalPackageField = 0;
 	static final public int interStaticFinalPublicField = 0;
 
+	private int interNormalPrivateMethod() { return 1; }
+	protected int interNormalProtectedMethod() { return 1; }
+	int interNormalPackageMethod() { return 1; }
+	public int interNormalPublicMethod() { return 1; }
+
+	private final int interFinalPrivateMethod() { return 1; }
+	protected final int interFinalProtectedMethod() { return 1; }
+	final int interFinalPackageMethod() { return 1; }
+	public final int interFinalPublicMethod() { return 1; }
+
+	private static int interStaticPrivateMethod() { return 1; }
+	protected static int interStaticProtectedMethod() { return 1; }
+	static int interStaticPackageMethod() { return 1; }
+	public static int interStaticPublicMethod() { return 1; }
+
+	private static final int interStaticFinalPrivateMethod() { return 1; }
+	protected static final int interStaticFinalProtectedMethod() { return 1; }
+	static final int interStaticFinalPackageMethod() { return 1; }
+	public static final int interStaticFinalPublicMethod() { return 1; }
+
 }
