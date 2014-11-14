@@ -23,31 +23,82 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The type Multi level map.
+ * @param <K>  the type parameter
+ * @param <V>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 
+	/**
+	 * The constant ERR_ITEMS_NOT_ENTRIES.
+	 */
 	protected static final String ERR_ITEMS_NOT_ENTRIES = "all items must be map entries";
 
+	/**
+	 * The Current level.
+	 */
 	protected final Map<K, V> currentLevel;
+	/**
+	 * The Entry set view.
+	 */
 	protected final transient MultiLevelEntrySet entrySetView;
+	/**
+	 * The Key set view.
+	 */
 	protected final transient MultiLevelKeySet keySetView;
+	/**
+	 * The Parent.
+	 */
 	protected Map<K, V> parent;
 
+	/**
+	 * Create multi level map.
+	 * @param <K1>  the type parameter
+	 * @param <V1>  the type parameter
+	 * @return the multi level map
+	 */
 	public static <K1, V1> MultiLevelMap<K1, V1> create() {
 		return new MultiLevelMap<K1, V1>(null, null);
 	}
 
+	/**
+	 * Create with parent.
+	 *
+	 * @param <K1>  the type parameter
+	 * @param <V1>  the type parameter
+	 * @param parentMap the parent map
+	 * @return the multi level map
+	 */
 	public static <K1, V1> MultiLevelMap<K1, V1> createWithParent(Map<? extends K1, ? extends V1> parentMap) {
 		return new MultiLevelMap<K1, V1>(null, parentMap);
 	}
 
+	/**
+	 * Create with content and parent.
+	 *
+	 * @param <K1>  the type parameter
+	 * @param <V1>  the type parameter
+	 * @param content the content
+	 * @param parentMap the parent map
+	 * @return the multi level map
+	 */
 	public static <K1, V1> MultiLevelMap<K1, V1> createWithContentAndParent(Map<? extends K1, ? extends V1> content,
 			Map<? extends K1, ? extends V1> parentMap) {
 		return new MultiLevelMap<K1, V1>(content, parentMap);
 	}
 
+	/**
+	 * Instantiates a new Multi level map.
+	 *
+	 * @param current the current
+	 * @param parent the parent
+	 */
 	protected MultiLevelMap(Map<? extends K, ? extends V> current, Map<? extends K, ? extends V> parent) {
 		if (null == current) {
 			currentLevel = new HashMap<K, V>();
@@ -233,6 +284,9 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * The type Multi level entry set.
+	 */
 	protected class MultiLevelEntrySet implements Set<Map.Entry<K, V>> {
 
 		@Override
@@ -253,7 +307,7 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 				return false;
 			}
 			final Object mapValue = MultiLevelMap.this.get(key);
-			return Objects.equals(entry.getValue(), mapValue);
+			return safeEquals(entry.getValue(), mapValue);
 		}
 
 		@Override
@@ -274,7 +328,7 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 					return false;
 				}
 				final Object actualValue = MultiLevelMap.this.get(key);
-				if (!Objects.equals(entry.getValue(), actualValue)) {
+				if (!safeEquals(entry.getValue(), actualValue)) {
 					return false;
 				}
 			}
@@ -304,7 +358,7 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 			boolean removed = false;
 			if (currentLevel.containsKey(key)) {
 				final Object actualValue = currentLevel.get(key);
-				if (Objects.equals(value, actualValue)) {
+				if (safeEquals(value, actualValue)) {
 					currentLevel.remove(key);
 					removed = true;
 				}
@@ -405,6 +459,9 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 
 	}
 
+	/**
+	 * The type Multi level key set.
+	 */
 	protected class MultiLevelKeySet implements Set<K> {
 
 		@Override
@@ -542,12 +599,18 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 		}
 	}
 
+	/**
+	 * The type Entry iterator.
+	 */
 	protected class EntryIterator implements Iterator<Map.Entry<K, V>> {
 
 		private final Iterator<Map.Entry<K, V>> currentIterator;
 		private final Iterator<Map.Entry<K, V>> parentIterator;
 		private boolean iteratingCurrentLevel;
 
+		/**
+		 * Instantiates a new Entry iterator.
+		 */
 		protected EntryIterator() {
 			currentIterator = currentLevel.entrySet().iterator();
 			if (null != parent) {
@@ -589,10 +652,16 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 		}
 	}
 
+	/**
+	 * The type Key iterator.
+	 */
 	protected class KeyIterator implements Iterator<K> {
 
 		private final EntryIterator baseIterator;
 
+		/**
+		 * Instantiates a new Key iterator.
+		 */
 		protected KeyIterator() {
 			baseIterator = new EntryIterator();
 		}
@@ -611,6 +680,15 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 		public void remove() {
 			baseIterator.remove();
 		}
+	}
+
+	private static boolean safeEquals(Object o1, Object o2) {
+		if ((null == o1) != (null == o2)) {
+			return false;
+		} else if (null == o1) {
+			return true;
+		}
+		return o1.equals(o2);
 	}
 
 }

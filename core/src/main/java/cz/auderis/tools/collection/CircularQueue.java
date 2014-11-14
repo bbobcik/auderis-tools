@@ -23,23 +23,50 @@ import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ * The type Circular queue.
+ * @param <E>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class CircularQueue<E> implements Collection<E> {
 
+	/**
+	 * The Capacity.
+	 */
 	protected final int capacity;
+
+	/**
+	 * The Entries.
+	 */
 	protected final QueueEntry<E>[] entries;
-	private final ReadWriteLock lock;
+
+	/**
+	 * The Size.
+	 */
 	protected int size;
 
-	// Where the last entry was written; when the queue is empty, its value is -1
+	/**
+	 * Where the last entry was written; when the queue is empty, its value is -1
+	 */
 	protected int tailIndex;
 
-	// Fast-fail modification detection in iterators
+	/**
+	 * Fast-fail modification detection in iterators
+	 */
 	protected volatile long version;
 
+	private final ReadWriteLock lock;
+
+	/**
+	 * Instantiates a new Circular queue.
+	 *
+	 * @param maxSize the max size
+	 */
 	public CircularQueue(int maxSize) {
 		super();
 		if (maxSize <= 0) {
@@ -55,6 +82,11 @@ public class CircularQueue<E> implements Collection<E> {
 		this.lock = new ReentrantReadWriteLock();
 	}
 
+	/**
+	 * Gets lock.
+	 *
+	 * @return the lock
+	 */
 	public ReadWriteLock getLock() {
 		return lock;
 	}
@@ -151,10 +183,18 @@ public class CircularQueue<E> implements Collection<E> {
 	public boolean contains(Object o) {
 		lock.readLock().lock();
 		try {
-			for (int i = 0; i < size; ++i) {
-				final E entryData = entries[i].data;
-				if (Objects.equals(o, entryData)) {
-					return true;
+			if (null == o) {
+				for (int i = 0; i < size; ++i) {
+					final E entryData = entries[i].data;
+					if (null == entries[i].data) {
+						return true;
+					}
+				}
+			} else {
+				for (int i = 0; i < size; ++i) {
+					if (o.equals(entries[i].data)) {
+						return true;
+					}
 				}
 			}
 			return false;
@@ -177,10 +217,19 @@ public class CircularQueue<E> implements Collection<E> {
 			}
 			FIND_TESTED_ITEM:
 			for (Object o : c) {
-				for (int i = 0; i < size; ++i) {
-					final E entryData = entries[i].data;
-					if (Objects.equals(o, entryData)) {
-						continue FIND_TESTED_ITEM;
+				if (null == o) {
+					for (int i = 0; i < size; ++i) {
+						final E entryData = entries[i].data;
+						if (null == entryData) {
+							continue FIND_TESTED_ITEM;
+						}
+					}
+				} else {
+					for (int i = 0; i < size; ++i) {
+						final E entryData = entries[i].data;
+						if (o.equals(entryData)) {
+							continue FIND_TESTED_ITEM;
+						}
 					}
 				}
 				return false;
@@ -248,14 +297,29 @@ public class CircularQueue<E> implements Collection<E> {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * The type Queue entry.
+	 * @param <E>  the type parameter
+	 */
 	protected static final class QueueEntry<E> {
+		/**
+		 * The Data.
+		 */
 		protected E data;
 
+		/**
+		 * Instantiates a new Queue entry.
+		 *
+		 * @param value the value
+		 */
 		public QueueEntry(E value) {
 			this.data = value;
 		}
 	}
 
+	/**
+	 * The type Wrapping iterator.
+	 */
 	protected final class WrappingIterator implements Iterator<E> {
 		private final long dataVersion;
 
@@ -264,6 +328,9 @@ public class CircularQueue<E> implements Collection<E> {
 
 		private int nextIdx;
 
+		/**
+		 * Instantiates a new Wrapping iterator.
+		 */
 		WrappingIterator() {
 			dataVersion = CircularQueue.this.version;
 			if (size < capacity) {

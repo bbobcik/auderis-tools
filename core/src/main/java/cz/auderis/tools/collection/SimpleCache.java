@@ -22,19 +22,42 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Simple cache.
+ * @param <K>  the type parameter
+ * @param <V>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class SimpleCache<K, V> {
 
 	private final Map<K, CacheEntry<V>> cache;
 
+	/**
+	 * Instantiates a new Simple cache.
+	 */
 	protected SimpleCache() {
 		super();
 		cache = new HashMap<K, CacheEntry<V>>();
 	}
 
+	/**
+	 * New instance.
+	 * @param <K>  the type parameter
+	 * @param <V>  the type parameter
+	 * @return the simple cache
+	 */
 	public static <K, V> SimpleCache<K, V> newInstance() {
 		return new SimpleCache<K, V>();
 	}
 
+	/**
+	 * Put void.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void put(K key, V value) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -52,6 +75,13 @@ public class SimpleCache<K, V> {
 		}
 	}
 
+	/**
+	 * Put with timeout.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 * @param t the t
+	 */
 	public void putWithTimeout(K key, V value, Timeout t) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -70,6 +100,12 @@ public class SimpleCache<K, V> {
 		}
 	}
 
+	/**
+	 * Get v.
+	 *
+	 * @param key the key
+	 * @return the v
+	 */
 	public V get(K key) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -84,6 +120,12 @@ public class SimpleCache<K, V> {
 		return entry.getValue();
 	}
 
+	/**
+	 * Has key.
+	 *
+	 * @param key the key
+	 * @return the boolean
+	 */
 	public boolean hasKey(K key) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -91,6 +133,11 @@ public class SimpleCache<K, V> {
 		return cache.containsKey(key);
 	}
 
+	/**
+	 * Remove void.
+	 *
+	 * @param key the key
+	 */
 	public void remove(K key) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -98,10 +145,19 @@ public class SimpleCache<K, V> {
 		cache.remove(key);
 	}
 
+	/**
+	 * Clear void.
+	 */
 	public void clear() {
 		cache.clear();
 	}
 
+	/**
+	 * Is available.
+	 *
+	 * @param key the key
+	 * @return the boolean
+	 */
 	public boolean isAvailable(K key) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -113,6 +169,12 @@ public class SimpleCache<K, V> {
 		return entry.isAvailable();
 	}
 
+	/**
+	 * Is expired.
+	 *
+	 * @param key the key
+	 * @return the boolean
+	 */
 	public boolean isExpired(K key) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -124,6 +186,11 @@ public class SimpleCache<K, V> {
 		return entry.isTimeoutExpired();
 	}
 
+	/**
+	 * Refresh void.
+	 *
+	 * @param key the key
+	 */
 	public void refresh(K key) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -134,6 +201,10 @@ public class SimpleCache<K, V> {
 		}
 	}
 
+	/**
+	 * The type Cache entry.
+	 * @param <W>  the type parameter
+	 */
 	protected static final class CacheEntry<W> {
 
 		// Invariant: either nullStored is true or valueRef != null
@@ -141,6 +212,11 @@ public class SimpleCache<K, V> {
 		private SoftReference<W> valueRef;
 		private Timeout expiration;
 
+		/**
+		 * Instantiates a new Cache entry.
+		 *
+		 * @param value the value
+		 */
 		public CacheEntry(W value) {
 			this.expiration = null;
 			if (null == value) {
@@ -150,6 +226,11 @@ public class SimpleCache<K, V> {
 			}
 		}
 
+		/**
+		 * Is available.
+		 *
+		 * @return the boolean
+		 */
 		public boolean isAvailable() {
 			if ((null != expiration) && expiration.isExpired()) {
 				return false;
@@ -157,10 +238,20 @@ public class SimpleCache<K, V> {
 			return nullStored || (null != valueRef.get());
 		}
 
+		/**
+		 * Is timeout expired.
+		 *
+		 * @return the boolean
+		 */
 		public boolean isTimeoutExpired() {
 			return (null != expiration) && expiration.isExpired();
 		}
 
+		/**
+		 * Gets value.
+		 *
+		 * @return the value
+		 */
 		public W getValue() {
 			if ((null != expiration) && expiration.isExpired()) {
 				return null;
@@ -171,6 +262,11 @@ public class SimpleCache<K, V> {
 			return valueRef.get();
 		}
 
+		/**
+		 * Sets value.
+		 *
+		 * @param newValue the new value
+		 */
 		public void setValue(W newValue) {
 			if (null == newValue) {
 				nullStored = true;
@@ -181,14 +277,27 @@ public class SimpleCache<K, V> {
 			}
 		}
 
+		/**
+		 * Gets timeout.
+		 *
+		 * @return the timeout
+		 */
 		public Timeout getTimeout() {
 			return expiration;
 		}
 
+		/**
+		 * Sets timeout.
+		 *
+		 * @param t the t
+		 */
 		public void setTimeout(Timeout t) {
 			this.expiration = t;
 		}
 
+		/**
+		 * Refresh void.
+		 */
 		public void refresh() {
 			if (null != expiration) {
 				expiration.restart();

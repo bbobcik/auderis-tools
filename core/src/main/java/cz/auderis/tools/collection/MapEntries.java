@@ -21,8 +21,22 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The type Map entries.
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public final class MapEntries {
 
+	/**
+	 * Copy from map.
+	 *
+	 * @param <K>  the type parameter
+	 * @param <V>  the type parameter
+	 * @param sourceMap the source map
+	 * @return the set
+	 */
 	public static <K, V> Set<Map.Entry<K, V>> copyFromMap(Map<? extends K, ? extends V> sourceMap) {
 		if (null == sourceMap) {
 			throw new NullPointerException();
@@ -31,6 +45,14 @@ public final class MapEntries {
 		return copy(sourceEntries);
 	}
 
+	/**
+	 * Copy set.
+	 *
+	 * @param <K>  the type parameter
+	 * @param <V>  the type parameter
+	 * @param sourceEntries the source entries
+	 * @return the set
+	 */
 	public static <K, V> Set<Map.Entry<K, V>> copy(Iterable<? extends Map.Entry<? extends K, ? extends V>> sourceEntries) {
 		if (null == sourceEntries) {
 			throw new NullPointerException();
@@ -49,6 +71,14 @@ public final class MapEntries {
 		return result;
 	}
 
+	/**
+	 * Copy from map.
+	 *
+	 * @param <K>  the type parameter
+	 * @param <V>  the type parameter
+	 * @param sourceMap the source map
+	 * @param target the target
+	 */
 	public static <K, V> void copyFromMap(Map<? extends K, ? extends V> sourceMap, Collection<? super Map.Entry<K, V>> target) {
 		if ((null == sourceMap) || (null == target)) {
 			throw new NullPointerException();
@@ -56,6 +86,14 @@ public final class MapEntries {
 		copy(sourceMap.entrySet(), target);
 	}
 
+	/**
+	 * Copy void.
+	 *
+	 * @param <K>  the type parameter
+	 * @param <V>  the type parameter
+	 * @param source the source
+	 * @param target the target
+	 */
 	public static <K, V> void copy(Iterable<? extends Map.Entry<? extends K, ? extends V>> source, Collection<? super Map.Entry<K, V>> target) {
 		if ((null == source) || (null == target)) {
 			throw new NullPointerException();

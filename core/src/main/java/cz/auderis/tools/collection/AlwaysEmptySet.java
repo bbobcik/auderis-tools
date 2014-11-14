@@ -24,6 +24,9 @@ import java.util.Set;
 /**
  * The type Always empty set.
  * @param <E>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
  */
 public class AlwaysEmptySet<E> implements Set<E> {
 
@@ -96,6 +99,27 @@ public class AlwaysEmptySet<E> implements Set<E> {
 	@Override
 	public void clear() {
 		// No action needed
+	}
+
+	@Override
+	public int hashCode() {
+		return 0;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		} else if ((null == obj) || !(obj instanceof Set)) {
+			return false;
+		}
+		final Set<?> other = (Set<?>) obj;
+		return other.isEmpty();
+	}
+
+	@Override
+	public String toString() {
+		return "EmptySet{}";
 	}
 
 }

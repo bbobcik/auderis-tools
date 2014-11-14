@@ -23,8 +23,15 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Objects;
 
+/**
+ * The type Simple map entry.
+ * @param <K>  the type parameter
+ * @param <V>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public final class SimpleMapEntry<K, V> implements Map.Entry<K, V>, Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -32,6 +39,12 @@ public final class SimpleMapEntry<K, V> implements Map.Entry<K, V>, Serializable
 	private V value;
 	private transient int keyHashCode;
 
+	/**
+	 * Instantiates a new Simple map entry.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public SimpleMapEntry(K key, V value) {
 		super();
 		if (null == key) {
@@ -42,6 +55,14 @@ public final class SimpleMapEntry<K, V> implements Map.Entry<K, V>, Serializable
 		this.value = value;
 	}
 
+	/**
+	 * Copy of.
+	 *
+	 * @param <K>  the type parameter
+	 * @param <V>  the type parameter
+	 * @param baseEntry the base entry
+	 * @return the simple map entry
+	 */
 	public static <K, V> SimpleMapEntry<K, V> copyOf(Map.Entry<? extends K, ? extends V> baseEntry) {
 		if (null == baseEntry) {
 			throw new NullPointerException();
@@ -86,7 +107,7 @@ public final class SimpleMapEntry<K, V> implements Map.Entry<K, V>, Serializable
 		final Map.Entry<?, ?> other = (Map.Entry<?, ?>) obj;
 		if (!this.key.equals(other.getKey())) {
 			return false;
-		} else if (!Objects.equals(this.value, other.getValue())) {
+		} else if (!safeEquals(this.value, other.getValue())) {
 			return false;
 		}
 		return true;
@@ -116,6 +137,15 @@ public final class SimpleMapEntry<K, V> implements Map.Entry<K, V>, Serializable
 	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException {
 		throw new UnsupportedOperationException();
+	}
+
+	private static boolean safeEquals(Object o1, Object o2) {
+		if ((null == o1) != (null == o2)) {
+			return false;
+		} else if (null == o1) {
+			return true;
+		}
+		return o1.equals(o2);
 	}
 
 }

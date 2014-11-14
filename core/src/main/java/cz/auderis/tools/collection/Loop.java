@@ -20,24 +20,74 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * The type Loop.
+ * @param <T>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public abstract class Loop<T> {
 
+	/**
+	 * Value t.
+	 *
+	 * @return the t
+	 */
 	public abstract T value();
 
+	/**
+	 * Index int.
+	 *
+	 * @return the int
+	 */
 	public abstract int index();
 
+	/**
+	 * Is first.
+	 *
+	 * @return the boolean
+	 */
 	public abstract boolean isFirst();
 
+	/**
+	 * Is last.
+	 *
+	 * @return the boolean
+	 */
 	public abstract boolean isLast();
 
+	/**
+	 * Is removed.
+	 *
+	 * @return the boolean
+	 */
 	public abstract boolean isRemoved();
 
+	/**
+	 * Remove void.
+	 */
 	public abstract void remove();
 
+	/**
+	 * Replace void.
+	 *
+	 * @param newValue the new value
+	 */
 	public abstract void replace(T newValue);
 
+	/**
+	 * Stop iteration.
+	 */
 	public abstract void stopIteration();
 
+	/**
+	 * Over iterable.
+	 *
+	 * @param <E>  the type parameter
+	 * @param source the source
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static <E> Iterable<Loop<E>> over(Iterable<? extends E> source) {
 		if (null == source) {
@@ -56,6 +106,13 @@ public abstract class Loop<T> {
 		return new BasicIterableLoop<E>(sourceIterator);
 	}
 
+	/**
+	 * Over iterable.
+	 *
+	 * @param <E>  the type parameter
+	 * @param sourceIterator the source iterator
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static <E> Iterable<Loop<E>> over(Iterator<? extends E> sourceIterator) {
 		if ((null == sourceIterator) || !sourceIterator.hasNext()) {
@@ -64,6 +121,13 @@ public abstract class Loop<T> {
 		return new BasicIterableLoop<E>(sourceIterator);
 	}
 
+	/**
+	 * Over array.
+	 *
+	 * @param <E>  the type parameter
+	 * @param sourceArray the source array
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static <E> Iterable<Loop<E>> overArray(E... sourceArray) {
 		if ((null == sourceArray) || (0 == sourceArray.length)) {
@@ -72,6 +136,12 @@ public abstract class Loop<T> {
 		return new NormalArrayLoop<E>(sourceArray);
 	}
 
+	/**
+	 * Over array.
+	 *
+	 * @param sourceArray the source array
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static Iterable<Loop<Integer>> overArray(int... sourceArray) {
 		if ((null == sourceArray) || (0 == sourceArray.length)) {
@@ -80,6 +150,12 @@ public abstract class Loop<T> {
 		return new IntArrayLoop(sourceArray);
 	}
 
+	/**
+	 * Over array.
+	 *
+	 * @param sourceArray the source array
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static Iterable<Loop<Long>> overArray(long... sourceArray) {
 		if ((null == sourceArray) || (0 == sourceArray.length)) {
@@ -88,6 +164,12 @@ public abstract class Loop<T> {
 		return new LongArrayLoop(sourceArray);
 	}
 
+	/**
+	 * Over array.
+	 *
+	 * @param sourceArray the source array
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static Iterable<Loop<Short>> overArray(short... sourceArray) {
 		if ((null == sourceArray) || (0 == sourceArray.length)) {
@@ -96,6 +178,12 @@ public abstract class Loop<T> {
 		return new ShortArrayLoop(sourceArray);
 	}
 
+	/**
+	 * Over array.
+	 *
+	 * @param sourceArray the source array
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static Iterable<Loop<Byte>> overArray(byte... sourceArray) {
 		if ((null == sourceArray) || (0 == sourceArray.length)) {
@@ -104,6 +192,12 @@ public abstract class Loop<T> {
 		return new ByteArrayLoop(sourceArray);
 	}
 
+	/**
+	 * Over array.
+	 *
+	 * @param sourceArray the source array
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static Iterable<Loop<Character>> overArray(char... sourceArray) {
 		if ((null == sourceArray) || (0 == sourceArray.length)) {
@@ -113,6 +207,12 @@ public abstract class Loop<T> {
 	}
 
 
+	/**
+	 * Over array.
+	 *
+	 * @param sourceArray the source array
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static Iterable<Loop<Boolean>> overArray(boolean... sourceArray) {
 		if ((null == sourceArray) || (0 == sourceArray.length)) {
@@ -121,6 +221,12 @@ public abstract class Loop<T> {
 		return new BooleanArrayLoop(sourceArray);
 	}
 
+	/**
+	 * Over iterable.
+	 *
+	 * @param text the text
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static Iterable<Loop<Character>> over(CharSequence text) {
 		if ((null == text) || (0 == text.length())) {
@@ -129,6 +235,13 @@ public abstract class Loop<T> {
 		return new CharSequenceLoop(text);
 	}
 
+	/**
+	 * Over range.
+	 *
+	 * @param minIncl the min incl
+	 * @param maxExcl the max excl
+	 * @return the iterable
+	 */
 	@SuppressWarnings("unchecked")
 	public static Iterable<Loop<Integer>> overRange(int minIncl, int maxExcl) {
 		if (minIncl >= maxExcl) {
@@ -137,6 +250,10 @@ public abstract class Loop<T> {
 		return new RangeLoop(minIncl, maxExcl);
 	}
 
+	/**
+	 * The type Basic iterable loop.
+	 * @param <E>  the type parameter
+	 */
 	protected static class BasicIterableLoop<E> extends Loop<E> implements Iterator<Loop<E>>, Iterable<Loop<E>> {
 
 		private final transient Iterator<? extends E> baseIterator;
@@ -145,6 +262,11 @@ public abstract class Loop<T> {
 		private transient E current;
 		private transient boolean last;
 
+		/**
+		 * Instantiates a new Basic iterable loop.
+		 *
+		 * @param baseIterator the base iterator
+		 */
 		protected BasicIterableLoop(Iterator<? extends E> baseIterator) {
 			this.baseIterator = baseIterator;
 			this.index = -1;
@@ -247,16 +369,30 @@ public abstract class Loop<T> {
 			return str.toString();
 		}
 
+		/**
+		 * Sets current.
+		 *
+		 * @param newCurrent the new current
+		 */
 		protected final void setCurrent(E newCurrent) {
 			this.current = newCurrent;
 		}
 	}
 
+	/**
+	 * The type List loop.
+	 * @param <E>  the type parameter
+	 */
 	protected static final class ListLoop<E> extends BasicIterableLoop<E> {
 
 		@SuppressWarnings("rawtypes")
 		private final transient List baseList;
 
+		/**
+		 * Instantiates a new List loop.
+		 *
+		 * @param baseList the base list
+		 */
 		protected ListLoop(List<E> baseList) {
 			super(baseList.iterator());
 			this.baseList = baseList;
@@ -276,9 +412,15 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Empty loop.
+	 */
 	protected static final class EmptyLoop extends Loop<Object>
 			implements Iterable<Loop<Object>>, Iterator<Loop<Object>> {
 
+		/**
+		 * Instantiates a new Empty loop.
+		 */
 		protected EmptyLoop() {
 			// Empty constructor
 		}
@@ -339,21 +481,43 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Abstract array loop.
+	 * @param <E>  the type parameter
+	 */
 	protected abstract static class AbstractArrayLoop<E> extends Loop<E>
 			implements Iterator<Loop<E>>, Iterable<Loop<E>> {
 
 		private final transient int length;
+		/**
+		 * The Index.
+		 */
 		protected transient int index;
 		private transient boolean last;
 
+		/**
+		 * Instantiates a new Abstract array loop.
+		 *
+		 * @param length the length
+		 */
 		protected AbstractArrayLoop(int length) {
 			this.length = length;
 			this.index = -1;
 			this.last = false;
 		}
 
+		/**
+		 * Gets value.
+		 *
+		 * @return the value
+		 */
 		protected abstract E getValue();
 
+		/**
+		 * Sets value.
+		 *
+		 * @param newValue the new value
+		 */
 		protected abstract void setValue(E newValue);
 
 		@Override
@@ -449,10 +613,19 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Normal array loop.
+	 * @param <E>  the type parameter
+	 */
 	protected static final class NormalArrayLoop<E> extends AbstractArrayLoop<E> {
 
 		private final transient E[] baseArray;
 
+		/**
+		 * Instantiates a new Normal array loop.
+		 *
+		 * @param baseArray the base array
+		 */
 		protected NormalArrayLoop(E[] baseArray) {
 			super(baseArray.length);
 			this.baseArray = baseArray;
@@ -498,9 +671,17 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Int array loop.
+	 */
 	protected static final class IntArrayLoop extends AbstractArrayLoop<Integer> {
 		private final transient int[] baseArray;
 
+		/**
+		 * Instantiates a new Int array loop.
+		 *
+		 * @param baseArray the base array
+		 */
 		protected IntArrayLoop(int[] baseArray) {
 			super(baseArray.length);
 			this.baseArray = baseArray;
@@ -517,9 +698,17 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Long array loop.
+	 */
 	protected static final class LongArrayLoop extends AbstractArrayLoop<Long> {
 		private final transient long[] baseArray;
 
+		/**
+		 * Instantiates a new Long array loop.
+		 *
+		 * @param baseArray the base array
+		 */
 		protected LongArrayLoop(long[] baseArray) {
 			super(baseArray.length);
 			this.baseArray = baseArray;
@@ -536,9 +725,17 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Short array loop.
+	 */
 	protected static final class ShortArrayLoop extends AbstractArrayLoop<Short> {
 		private final transient short[] baseArray;
 
+		/**
+		 * Instantiates a new Short array loop.
+		 *
+		 * @param baseArray the base array
+		 */
 		protected ShortArrayLoop(short[] baseArray) {
 			super(baseArray.length);
 			this.baseArray = baseArray;
@@ -555,9 +752,17 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Byte array loop.
+	 */
 	protected static final class ByteArrayLoop extends AbstractArrayLoop<Byte> {
 		private final transient byte[] baseArray;
 
+		/**
+		 * Instantiates a new Byte array loop.
+		 *
+		 * @param baseArray the base array
+		 */
 		protected ByteArrayLoop(byte[] baseArray) {
 			super(baseArray.length);
 			this.baseArray = baseArray;
@@ -574,9 +779,17 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Char array loop.
+	 */
 	protected static final class CharArrayLoop extends AbstractArrayLoop<Character> {
 		private final transient char[] baseArray;
 
+		/**
+		 * Instantiates a new Char array loop.
+		 *
+		 * @param baseArray the base array
+		 */
 		protected CharArrayLoop(char[] baseArray) {
 			super(baseArray.length);
 			this.baseArray = baseArray;
@@ -593,9 +806,17 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Boolean array loop.
+	 */
 	protected static final class BooleanArrayLoop extends AbstractArrayLoop<Boolean> {
 		private final transient boolean[] baseArray;
 
+		/**
+		 * Instantiates a new Boolean array loop.
+		 *
+		 * @param baseArray the base array
+		 */
 		protected BooleanArrayLoop(boolean[] baseArray) {
 			super(baseArray.length);
 			this.baseArray = baseArray;
@@ -612,9 +833,17 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Char sequence loop.
+	 */
 	protected static final class CharSequenceLoop extends AbstractArrayLoop<Character> {
 		private final transient CharSequence baseText;
 
+		/**
+		 * Instantiates a new Char sequence loop.
+		 *
+		 * @param baseText the base text
+		 */
 		protected CharSequenceLoop(CharSequence baseText) {
 			super(baseText.length());
 			this.baseText = baseText;
@@ -631,9 +860,18 @@ public abstract class Loop<T> {
 		}
 	}
 
+	/**
+	 * The type Range loop.
+	 */
 	protected static final class RangeLoop extends AbstractArrayLoop<Integer> {
 		private final transient int start;
 
+		/**
+		 * Instantiates a new Range loop.
+		 *
+		 * @param min the min
+		 * @param max the max
+		 */
 		protected RangeLoop(int min, int max) {
 			super(max - min);
 			this.start = min;
@@ -660,9 +898,21 @@ public abstract class Loop<T> {
 		throw new UnsupportedOperationException(ERR_TRANSIENT);
 	}
 
+	/**
+	 * The constant ERR_TRANSIENT.
+	 */
 	protected static final String ERR_TRANSIENT = "loop item is transient object, use its value instead";
+	/**
+	 * The constant ERR_NOT_ACTIVE.
+	 */
 	protected static final String ERR_NOT_ACTIVE = "loop not active";
+	/**
+	 * The constant ERR_STOPPED.
+	 */
 	protected static final String ERR_STOPPED = "loop was stopped";
+	/**
+	 * The constant ERR_REMOVED.
+	 */
 	protected static final String ERR_REMOVED = "loop item was already removed";
 
 	@SuppressWarnings("rawtypes")

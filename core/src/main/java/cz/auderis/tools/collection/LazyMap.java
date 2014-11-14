@@ -21,18 +21,33 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The type Lazy map.
+ * @param <K>  the type parameter
+ * @param <V>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class LazyMap<K, V> implements Map<K, V>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Map<K, V> baseMap;
 
+	/**
+	 * Instantiates a new Lazy map.
+	 */
 	public LazyMap() {
 		baseMap = null;
 	}
 
+	/**
+	 * Gets map.
+	 *
+	 * @return the map
+	 */
 	public Map<K, V> getMap() {
 		if ((null != baseMap) && baseMap.isEmpty()) {
 			return null;
@@ -145,7 +160,9 @@ public class LazyMap<K, V> implements Map<K, V>, Serializable {
 			return false;
 		}
 		final LazyMap<?, ?> other = (LazyMap<?, ?>) obj;
-		if (!Objects.equals(this.baseMap, other.baseMap)) {
+		if (this.isEmpty() != other.isEmpty()) {
+			return false;
+		} else if ((null != this.baseMap) && !this.baseMap.equals(other.baseMap)) {
 			return false;
 		}
 		return true;
