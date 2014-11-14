@@ -21,9 +21,18 @@ import cz.auderis.tools.collection.AlwaysEmptySet;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Basic implementation of {@link TopoNode}
+ * that exposes convenient static methods for easier instantiation.
+ *
+ * @param <K>   type of key (usually identifier) of the sorted item
+ * @param <V>   type of sorted item
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class BasicTopoNode<K, V> implements TopoNode<K, V> {
 
 	private static final Set<?> EMPTY_MUTABLE_SET = new AlwaysEmptySet<Object>();
@@ -31,6 +40,17 @@ public class BasicTopoNode<K, V> implements TopoNode<K, V> {
 	private final V value;
 	private Set<K> dependencies;
 
+	/**
+	 * Creates an instance of topological sorting node for sorting item
+	 * {@code value} identified by key {@code key} without any dependencies.
+	 *
+	 * @param <K1>  type of key (usually identifier) of the sorted item
+	 * @param <V1>  type of sorted item
+	 * @param key key of the sorted item
+	 * @param value sorted item
+	 * @return new node for topological sorting
+	 * @throws java.lang.NullPointerException if key is {@code null}
+	 */
 	public static <K1, V1> BasicTopoNode<K1, V1> create(K1 key, V1 value) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -38,6 +58,19 @@ public class BasicTopoNode<K, V> implements TopoNode<K, V> {
 		return new BasicTopoNode<K1, V1>(key, value);
 	}
 
+	/**
+	 * Creates an instance of topological sorting node for sorting item
+	 * {@code value} identified by key {@code key} with an initial set of dependencies
+	 * defined by argument {@code dependencies}.
+	 *
+	 * @param <K1>  type of key (usually identifier) of the sorted item
+	 * @param <V1>  type of sorted item
+	 * @param key key of the sorted item
+	 * @param value sorted item
+	 * @param dependencies collection of keys of items that are prerequisities for the item {@code value}
+	 * @return new node for topological sorting
+	 * @throws java.lang.NullPointerException if key is {@code null}
+	 */
 	public static <K1, V1> BasicTopoNode<K1, V1> createWithDependencies(K1 key, V1 value, Collection<? extends K1> dependencies) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -49,6 +82,19 @@ public class BasicTopoNode<K, V> implements TopoNode<K, V> {
 		return newNode;
 	}
 
+	/**
+	 * Creates an instance of topological sorting node for sorting item
+	 * {@code value} identified by key {@code key} with an initial set of dependencies
+	 * defined by argument {@code dependencies}.
+	 *
+	 * @param <K1>  type of key (usually identifier) of the sorted item
+	 * @param <V1>  type of sorted item
+	 * @param key key of the sorted item
+	 * @param value sorted item
+	 * @param dependencies array of keys of items that are prerequisities for the item {@code value}
+	 * @return new node for topological sorting
+	 * @throws java.lang.NullPointerException if key is {@code null}
+	 */
 	public static <K1, V1> BasicTopoNode<K1, V1> createWithDependencies(K1 key, V1 value, K1... dependencies) {
 		if (null == key) {
 			throw new NullPointerException();
@@ -75,11 +121,24 @@ public class BasicTopoNode<K, V> implements TopoNode<K, V> {
 		return dependencies;
 	}
 
+	/**
+	 * Returns hash code of the item's key.
+	 *
+	 * @return {@code hashCode()} of the item's key
+	 */
 	@Override
 	public int hashCode() {
 		return key.hashCode();
 	}
 
+	/**
+	 * Determines whether the given object is an instance of {@code TopoNode}
+	 * that has a key equal to the key of this node.
+	 *
+	 * @param obj object for comparison
+	 * @return {@code true} if {@code obj} is an instance of {@code TopoNode} and
+	 * its key is equal to this node's key; in all other cases {@code false}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -88,17 +147,26 @@ public class BasicTopoNode<K, V> implements TopoNode<K, V> {
 			return false;
 		}
 		final TopoNode<?, ?> other = (TopoNode<?, ?>) obj;
-		if (!Objects.equals(this.key, other.getTopoKey())) {
-			return false;
-		}
-		return true;
+		final Object otherKey = other.getTopoKey();
+		return this.key.equals(otherKey);
 	}
 
+	/**
+	 * Returns text representation of the item's key.
+	 *
+	 * @return {@code toString()} of the item's key
+	 */
 	@Override
 	public String toString() {
 		return key.toString();
 	}
 
+	/**
+	 * Instantiates a new node with empty set of dependencies.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	protected BasicTopoNode(K key, V value) {
 		this.key = key;
 		this.value = value;
@@ -107,6 +175,12 @@ public class BasicTopoNode<K, V> implements TopoNode<K, V> {
 		this.dependencies = emptySet;
 	}
 
+	/**
+	 * Sets the dependencies of this node.
+	 *
+	 * @param deps collection of keys of item that are prerequisities
+	 * for the item represented by this node
+	 */
 	protected void setDependencies(Collection<? extends K> deps) {
 		// assumes deps != null
 		final int newCount = deps.size();
