@@ -19,6 +19,10 @@ package cz.auderis.tools.lang;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 
+/**
+ * Default predicate for class members that selects all members
+ * except static, final or synthetic ones.
+ */
 public class DefaultMemberFilter implements MemberFilter {
 
 	@Override

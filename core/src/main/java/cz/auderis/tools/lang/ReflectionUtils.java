@@ -21,14 +21,35 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Utility class that simplifies common reflective operations
+ * performed on classes and their members.
+ *
+ */
 public final class ReflectionUtils {
 
-
-
+	/**
+	 * Obtains a list of all normal non-final fields
+	 * defined in the target class. Normal field denotes
+	 * a field that is neither static nor synthetic;
+	 * {@link cz.auderis.tools.lang.DefaultMemberFilter} is
+	 * used as the filtering predicate.
+	 *
+	 * @param cls target class
+	 * @return list of normal non-final fields defined in the target class
+	 * @see cz.auderis.tools.lang.DefaultMemberFilter
+	 */
 	public static List<Field> getFields(Class<?> cls) {
 		return getFields(cls, DEFAULT_FILTER);
 	}
 
+	/**
+	 * Gets fields.
+	 *
+	 * @param cls the cls
+	 * @param filter the filter
+	 * @return the fields
+	 */
 	public static List<Field> getFields(Class<?> cls, MemberFilter filter) {
 		if (null == cls) {
 			throw new NullPointerException();
@@ -49,6 +70,13 @@ public final class ReflectionUtils {
 		return result;
 	}
 
+	/**
+	 * Gets normal field.
+	 *
+	 * @param cls the cls
+	 * @param fieldName the field name
+	 * @return the normal field
+	 */
 	public static Field getNormalField(Class<?> cls, String fieldName) {
 		if ((null == cls) || (null == fieldName)) {
 			throw new NullPointerException();

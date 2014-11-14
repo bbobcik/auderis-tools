@@ -18,8 +18,20 @@ package cz.auderis.tools.lang;
 
 import java.lang.reflect.Member;
 
+/**
+ * Simple predicate for selecting class members.
+ */
 public interface MemberFilter {
 
+	/**
+	 * Determines whether a member can be accepted by caller
+	 * for further processing.
+	 *
+	 * @param m queried member
+	 * @param declaringClass class, that contains the member
+	 * @return {@code true} if the member can be accepted
+	 * @throws java.lang.NullPointerException if any of the arguments is {@code null}
+	 */
 	boolean accept(Member m, Class<?> declaringClass);
 
 }
