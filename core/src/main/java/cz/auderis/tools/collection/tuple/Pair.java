@@ -20,14 +20,42 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Pair.
+ * @param <L>  the type parameter
+ * @param <R>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public abstract class Pair<L, R> implements Map.Entry<L, R>, Serializable {
 	private static final long serialVersionUID = 4954918890077093842L;
 
+	/**
+	 * Immutable pair.
+	 *
+	 * @param <L>  the type parameter
+	 * @param <R>  the type parameter
+	 * @param left the left
+	 * @param right the right
+	 * @return the pair
+	 */
 	public static <L, R> Pair<L, R> immutable(L left, R right) {
 		return new ImmutablePair<L, R>(left, right);
 	}
 
+	/**
+	 * Gets left.
+	 *
+	 * @return the left
+	 */
 	public abstract L getLeft();
+
+	/**
+	 * Gets right.
+	 *
+	 * @return the right
+	 */
 	public abstract R getRight();
 
 	@Override
@@ -61,6 +89,9 @@ public abstract class Pair<L, R> implements Map.Entry<L, R>, Serializable {
 		return true;
 	}
 
+	/**
+	 * Generates hash code conforming with {@link java.util.Map.Entry#hashCode()} specification.
+	 */
 	@Override
 	public int hashCode() {
 		// see Map.Entry API specification
@@ -69,7 +100,7 @@ public abstract class Pair<L, R> implements Map.Entry<L, R>, Serializable {
 
 	@Override
 	public String toString() {
-		StringBuilder str = new StringBuilder();
+		final StringBuilder str = new StringBuilder();
 		str.append('(').append(getLeft());
 		str.append(',').append(getRight());
 		str.append(')');

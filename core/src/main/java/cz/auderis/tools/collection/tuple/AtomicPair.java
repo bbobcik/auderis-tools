@@ -19,16 +19,41 @@ package cz.auderis.tools.collection.tuple;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Atomic pair.
+ * @param <L>  the type parameter
+ * @param <R>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class AtomicPair<L, R> extends Pair<L, R> {
 	private static final long serialVersionUID = 4954918890077093842L;
 
 	private volatile L left;
 	private volatile R right;
 
+	/**
+	 * Of atomic pair.
+	 *
+	 * @param <L>  the type parameter
+	 * @param <R>  the type parameter
+	 * @param left the left
+	 * @param right the right
+	 * @return the atomic pair
+	 */
 	public static <L, R> AtomicPair<L, R> of(L left, R right) {
 		return new AtomicPair<L, R>(left, right);
 	}
 
+	/**
+	 * Copy of.
+	 *
+	 * @param <L>  the type parameter
+	 * @param <R>  the type parameter
+	 * @param source the source
+	 * @return the atomic pair
+	 */
 	public static <L, R> AtomicPair<L, R> copyOf(Map.Entry<L, R> source) {
 		if (null == source) {
 			throw new NullPointerException();
@@ -36,6 +61,12 @@ public class AtomicPair<L, R> extends Pair<L, R> {
 		return new AtomicPair<L, R>(source.getKey(), source.getValue());
 	}
 
+	/**
+	 * Instantiates a new Atomic pair.
+	 *
+	 * @param left the left
+	 * @param right the right
+	 */
 	protected AtomicPair(L left, R right) {
 		super();
 		this.left = left;
@@ -52,30 +83,63 @@ public class AtomicPair<L, R> extends Pair<L, R> {
 		return right;
 	}
 
+	/**
+	 * Get pair.
+	 *
+	 * @return the pair
+	 */
 	public synchronized Pair<L, R> get() {
 		return new ImmutablePair<L, R>(this.left, this.right);
 	}
 
+	/**
+	 * Sets left.
+	 *
+	 * @param left the left
+	 */
 	public synchronized void setLeft(L left) {
 		this.left = left;
 	}
 
+	/**
+	 * Sets right.
+	 *
+	 * @param right the right
+	 */
 	public synchronized void setRight(R right) {
 		this.right = right;
 	}
 
+	/**
+	 * Gets and set left.
+	 *
+	 * @param lt the lt
+	 * @return the and set left
+	 */
 	public synchronized L getAndSetLeft(L lt) {
 		final L oldLeft = lt;
 		this.left = lt;
 		return oldLeft;
 	}
 
+	/**
+	 * Gets and set right.
+	 *
+	 * @param rt the rt
+	 * @return the and set right
+	 */
 	public synchronized R getAndSetRight(R rt) {
 		final R oldRight = rt;
 		this.right = rt;
 		return oldRight;
 	}
 
+	/**
+	 * Sets key.
+	 *
+	 * @param key the key
+	 * @return the key
+	 */
 	public L setKey(L key) {
 		return getAndSetLeft(key);
 	}
@@ -85,11 +149,26 @@ public class AtomicPair<L, R> extends Pair<L, R> {
 		return getAndSetRight(value);
 	}
 
+	/**
+	 * Set void.
+	 *
+	 * @param lt the lt
+	 * @param rt the rt
+	 */
 	public synchronized void set(L lt, R rt) {
 		this.left = lt;
 		this.right = rt;
 	}
 
+	/**
+	 * Compare and set.
+	 *
+	 * @param expectLeft the expect left
+	 * @param expectRight the expect right
+	 * @param newLeft the new left
+	 * @param newRight the new right
+	 * @return the boolean
+	 */
 	public synchronized boolean compareAndSet(L expectLeft, R expectRight, L newLeft, R newRight) {
 		final L currLeft = this.left;
 		final R currRight = this.right;
@@ -103,6 +182,13 @@ public class AtomicPair<L, R> extends Pair<L, R> {
 		return false;
 	}
 
+	/**
+	 * Compare left and set.
+	 *
+	 * @param expectLeft the expect left
+	 * @param newLeft the new left
+	 * @return the boolean
+	 */
 	public synchronized boolean compareLeftAndSet(L expectLeft, L newLeft) {
 		if ((null == expectLeft) != (null == this.left)) {
 			return false;
@@ -115,6 +201,14 @@ public class AtomicPair<L, R> extends Pair<L, R> {
 		return false;
 	}
 
+	/**
+	 * Compare left and set.
+	 *
+	 * @param expectLeft the expect left
+	 * @param newLeft the new left
+	 * @param newRight the new right
+	 * @return the boolean
+	 */
 	public synchronized boolean compareLeftAndSet(L expectLeft, L newLeft, R newRight) {
 		if ((null == expectLeft) != (null == this.left)) {
 			return false;
@@ -128,6 +222,13 @@ public class AtomicPair<L, R> extends Pair<L, R> {
 		return false;
 	}
 
+	/**
+	 * Compare right and set.
+	 *
+	 * @param expectRight the expect right
+	 * @param newRight the new right
+	 * @return the boolean
+	 */
 	public synchronized boolean compareRightAndSet(R expectRight, R newRight) {
 		if ((null == expectRight) != (null == this.right)) {
 			return false;
@@ -140,6 +241,14 @@ public class AtomicPair<L, R> extends Pair<L, R> {
 		return false;
 	}
 
+	/**
+	 * Compare right and set.
+	 *
+	 * @param expectRight the expect right
+	 * @param newLeft the new left
+	 * @param newRight the new right
+	 * @return the boolean
+	 */
 	public synchronized boolean compareRightAndSet(R expectRight, L newLeft, R newRight) {
 		if ((null == expectRight) != (null == this.right)) {
 			return false;

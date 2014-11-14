@@ -19,16 +19,41 @@ package cz.auderis.tools.collection.tuple;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Basic pair.
+ * @param <L>  the type parameter
+ * @param <R>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class BasicPair<L, R> extends Pair<L, R> {
 	private static final long serialVersionUID = 4954918890077093842L;
 
 	private L left;
 	private R right;
 
+	/**
+	 * Of basic pair.
+	 *
+	 * @param <L>  the type parameter
+	 * @param <R>  the type parameter
+	 * @param left the left
+	 * @param right the right
+	 * @return the basic pair
+	 */
 	public static <L, R> BasicPair<L, R> of(L left, R right) {
 		return new BasicPair<L, R>(left, right);
 	}
 
+	/**
+	 * Copy of.
+	 *
+	 * @param <L>  the type parameter
+	 * @param <R>  the type parameter
+	 * @param source the source
+	 * @return the basic pair
+	 */
 	public static <L, R> BasicPair<L, R> copyOf(Map.Entry<L, R> source) {
 		if (null == source) {
 			throw new NullPointerException();
@@ -36,6 +61,12 @@ public class BasicPair<L, R> extends Pair<L, R> {
 		return new BasicPair<L, R>(source.getKey(), source.getValue());
 	}
 
+	/**
+	 * Instantiates a new Basic pair.
+	 *
+	 * @param left the left
+	 * @param right the right
+	 */
 	BasicPair(L left, R right) {
 		super();
 		this.left = left;
@@ -52,18 +83,36 @@ public class BasicPair<L, R> extends Pair<L, R> {
 		return right;
 	}
 
+	/**
+	 * Sets left.
+	 *
+	 * @param lt the lt
+	 * @return the left
+	 */
 	public L setLeft(L lt) {
 		final L oldLeft = this.left;
 		this.left = lt;
 		return oldLeft;
 	}
 
+	/**
+	 * Sets right.
+	 *
+	 * @param rt the rt
+	 * @return the right
+	 */
 	public R setRight(R rt) {
 		final R oldRight = this.right;
 		this.right = rt;
 		return oldRight;
 	}
 
+	/**
+	 * Sets key.
+	 *
+	 * @param key the key
+	 * @return the key
+	 */
 	public L setKey(L key) {
 		return setLeft(key);
 	}

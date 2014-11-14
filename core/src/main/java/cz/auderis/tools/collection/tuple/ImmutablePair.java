@@ -19,16 +19,41 @@ package cz.auderis.tools.collection.tuple;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Immutable pair.
+ * @param <L>  the type parameter
+ * @param <R>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public final class ImmutablePair<L, R> extends Pair<L, R> {
 	private static final long serialVersionUID = 4954918890077093842L;
 
 	private final L left;
 	private final R right;
 
+	/**
+	 * Of immutable pair.
+	 *
+	 * @param <L>  the type parameter
+	 * @param <R>  the type parameter
+	 * @param left the left
+	 * @param right the right
+	 * @return the immutable pair
+	 */
 	public static <L, R> ImmutablePair<L, R> of(L left, R right) {
 		return new ImmutablePair<L, R>(left, right);
 	}
 
+	/**
+	 * Copy of.
+	 *
+	 * @param <L>  the type parameter
+	 * @param <R>  the type parameter
+	 * @param source the source
+	 * @return the immutable pair
+	 */
 	public static <L, R> ImmutablePair<L, R> copyOf(Map.Entry<L, R> source) {
 		if (null == source) {
 			throw new NullPointerException();
@@ -36,6 +61,12 @@ public final class ImmutablePair<L, R> extends Pair<L, R> {
 		return new ImmutablePair<L, R>(source.getKey(), source.getValue());
 	}
 
+	/**
+	 * Instantiates a new Immutable pair.
+	 *
+	 * @param left the left
+	 * @param right the right
+	 */
 	ImmutablePair(L left, R right) {
 		super();
 		this.left = left;
