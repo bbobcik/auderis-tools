@@ -16,16 +16,48 @@
 
 package cz.auderis.tools.collection.iterator;
 
+/**
+ * Describes a generic encapsulation of iterated element that provides
+ * more information about the iteration context.
+ *
+ * @param <T>  type of iterated elements
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public interface IterationItem<T> {
 
+	/**
+	 * Returns the element relevant to the current iteration cycle.
+	 *
+	 * @return current element
+	 */
 	T value();
 
+	/**
+	 * Index of the current iteration cycle. Before the start of iteration, its value is -1.
+	 *
+	 * @return index of the current iteration cycle
+	 */
 	int index();
 
+	/**
+	 * Determines whether the current element is the first member of the iterated sequence.
+	 *
+	 * @return {@code true} if the current element is the first member of the iterated sequence
+	 */
 	boolean isFirst();
 
+	/**
+	 * Determines whether the current element is the last member of the iterated sequence.
+	 *
+	 * @return {@code true} if the current element is the last member of the iterated sequence
+	 */
 	boolean isLast();
 
+	/**
+	 * Removes the current element.
+	 */
 	void remove();
 
 }

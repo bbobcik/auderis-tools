@@ -19,8 +19,22 @@ package cz.auderis.tools.collection.iterator;
 import java.util.Arrays;
 import java.util.Iterator;
 
+/**
+ * The type Iteration items.
+ * @param <T>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public final class IterationItems<T> implements Iterable<IterationItem<T>> {
 
+	/**
+	 * Of iteration items.
+	 *
+	 * @param <T>  the type parameter
+	 * @param source the source
+	 * @return the iteration items
+	 */
 	public static <T> IterationItems<T> of(Iterable<? extends T> source) {
 		final Iterator<? extends T> baseIterator;
 		if (null == source) {
@@ -32,6 +46,13 @@ public final class IterationItems<T> implements Iterable<IterationItem<T>> {
 		return new IterationItems<T>(itemIterator);
 	}
 
+	/**
+	 * Of iteration items.
+	 *
+	 * @param <T>  the type parameter
+	 * @param source the source
+	 * @return the iteration items
+	 */
 	public static <T> IterationItems<T> of(Iterator<? extends T> source) {
 		if (null == source) {
 			throw new NullPointerException();
@@ -40,6 +61,13 @@ public final class IterationItems<T> implements Iterable<IterationItem<T>> {
 		return new IterationItems<T>(itemIterator);
 	}
 
+	/**
+	 * Of array.
+	 *
+	 * @param <T>  the type parameter
+	 * @param source the source
+	 * @return the iteration items
+	 */
 	@SafeVarargs
 	public static <T> IterationItems<T> ofArray(T... source) {
 		final Iterator<? extends T> baseIterator;
@@ -63,12 +91,21 @@ public final class IterationItems<T> implements Iterable<IterationItem<T>> {
 		return itemIterator;
 	}
 
+	/**
+	 * The type Iterable item wrapper.
+	 * @param <E>  the type parameter
+	 */
 	protected static final class IterableItemWrapper<E> implements IterationItem<E>, Iterator<IterationItem<E>> {
 
 		private final Iterator<? extends E> baseIterator;
 		private int index;
 		private E current;
 
+		/**
+		 * Instantiates a new Iterable item wrapper.
+		 *
+		 * @param baseIterator the base iterator
+		 */
 		public IterableItemWrapper(Iterator<? extends E> baseIterator) {
 			this.baseIterator = baseIterator;
 			this.index = -1;

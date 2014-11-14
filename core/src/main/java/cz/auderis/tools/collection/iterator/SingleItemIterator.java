@@ -19,15 +19,30 @@ package cz.auderis.tools.collection.iterator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * The type Single item iterator.
+ * @param <T>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class SingleItemIterator<T> implements Iterator<T>, Iterable<T> {
 
 	private T itemReference;
 	private boolean exhausted;
 
+	/**
+	 * Instantiates a new Single item iterator.
+	 */
 	public SingleItemIterator() {
 		this(null);
 	}
 
+	/**
+	 * Instantiates a new Single item iterator.
+	 *
+	 * @param item the item
+	 */
 	public SingleItemIterator(T item) {
 		itemReference = item;
 		exhausted = false;
@@ -57,10 +72,18 @@ public class SingleItemIterator<T> implements Iterator<T>, Iterable<T> {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Reset void.
+	 */
 	public void reset() {
 		exhausted = false;
 	}
 
+	/**
+	 * Reset void.
+	 *
+	 * @param newItem the new item
+	 */
 	public void reset(T newItem) {
 		itemReference = newItem;
 		exhausted = false;

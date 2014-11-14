@@ -21,6 +21,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The type Pushback iterator decorator.
+ * @param <T>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class PushbackIteratorDecorator<T> implements Iterator<T>, Iterable<T> {
 
 	private final Iterator<? extends T> baseIterator;
@@ -28,6 +35,11 @@ public class PushbackIteratorDecorator<T> implements Iterator<T>, Iterable<T> {
 	private boolean lastFromBuffer;
 	private T lastItem;
 
+	/**
+	 * Instantiates a new Pushback iterator decorator.
+	 *
+	 * @param baseIter the base iter
+	 */
 	public PushbackIteratorDecorator(Iterator<? extends T> baseIter) {
 		if (null != baseIter) {
 			baseIterator = baseIter;
@@ -39,11 +51,17 @@ public class PushbackIteratorDecorator<T> implements Iterator<T>, Iterable<T> {
 		lastItem = null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Iterator<T> iterator() {
 		return this;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean hasNext() {
 		if ((null != pushbackBuffer) && !pushbackBuffer.isEmpty()) {
@@ -52,6 +70,9 @@ public class PushbackIteratorDecorator<T> implements Iterator<T>, Iterable<T> {
 		return baseIterator.hasNext();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public T next() {
 		lastFromBuffer = ((null != pushbackBuffer) && !pushbackBuffer.isEmpty());
@@ -63,6 +84,9 @@ public class PushbackIteratorDecorator<T> implements Iterator<T>, Iterable<T> {
 		return lastItem;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void remove() {
 		if (!lastFromBuffer) {
@@ -70,10 +94,18 @@ public class PushbackIteratorDecorator<T> implements Iterator<T>, Iterable<T> {
 		}
 	}
 
+	/**
+	 * Pushback void.
+	 */
 	public void pushback() {
 		pushback(lastItem);
 	}
 
+	/**
+	 * Pushback void.
+	 *
+	 * @param item the item
+	 */
 	public void pushback(T item) {
 		if (null == pushbackBuffer) {
 			pushbackBuffer = new LinkedList<T>();
@@ -81,6 +113,11 @@ public class PushbackIteratorDecorator<T> implements Iterator<T>, Iterable<T> {
 		pushbackBuffer.add(item);
 	}
 
+	/**
+	 * Pushback void.
+	 *
+	 * @param items the items
+	 */
 	public void pushback(Collection<? extends T> items) {
 		if (null == items) {
 			return;
@@ -91,6 +128,9 @@ public class PushbackIteratorDecorator<T> implements Iterator<T>, Iterable<T> {
 		}
 	}
 
+	/**
+	 * Clear buffer.
+	 */
 	public void clearBuffer() {
 		if (null != pushbackBuffer) {
 			pushbackBuffer.clear();

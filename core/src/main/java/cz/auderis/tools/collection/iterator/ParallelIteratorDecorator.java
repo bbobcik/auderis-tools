@@ -22,11 +22,25 @@ import cz.auderis.tools.collection.tuple.Pair;
 
 import java.util.Iterator;
 
+/**
+ * The type Parallel iterator decorator.
+ * @param <I>  the type parameter
+ * @param <J>  the type parameter
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public class ParallelIteratorDecorator<I, J> implements Iterator<Pair<I, J>>, Iterable<Pair<I, J>> {
 
 	private final Iterator<? extends I> keyIterator;
 	private final Iterator<? extends J> valueIterator;
 
+	/**
+	 * Instantiates a new Parallel iterator decorator.
+	 *
+	 * @param keyIter the key iter
+	 * @param valueIter the value iter
+	 */
 	public ParallelIteratorDecorator(Iterator<? extends I> keyIter, Iterator<? extends J> valueIter) {
 		if (null != keyIter) {
 			keyIterator = keyIter;
@@ -40,24 +54,43 @@ public class ParallelIteratorDecorator<I, J> implements Iterator<Pair<I, J>>, It
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Iterator<Pair<I, J>> iterator() {
 		return this;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean hasNext() {
 		return keyIterator.hasNext() || valueIterator.hasNext();
 	}
 
+	/**
+	 * Has next key.
+	 *
+	 * @return the boolean
+	 */
 	public boolean hasNextKey() {
 		return keyIterator.hasNext();
 	}
 
+	/**
+	 * Has next value.
+	 *
+	 * @return the boolean
+	 */
 	public boolean hasNextValue() {
 		return valueIterator.hasNext();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Pair<I, J> next() {
 		final I key = keyIterator.hasNext() ? keyIterator.next() : null;
@@ -65,16 +98,25 @@ public class ParallelIteratorDecorator<I, J> implements Iterator<Pair<I, J>>, It
 		return ImmutablePair.of(key, val);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void remove() {
 		keyIterator.remove();
 		valueIterator.remove();
 	}
 
+	/**
+	 * Remove key.
+	 */
 	public void removeKey() {
 		keyIterator.remove();
 	}
 
+	/**
+	 * Remove value.
+	 */
 	public void removeValue() {
 		valueIterator.remove();
 	}
