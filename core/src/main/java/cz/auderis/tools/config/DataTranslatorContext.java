@@ -14,40 +14,20 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.resource;
+package cz.auderis.tools.config;
 
-import cz.auderis.tools.config.ConfigurationDataProvider;
-
-import java.util.ResourceBundle;
+import java.lang.reflect.AnnotatedElement;
 
 /**
- * {@code ResourceDataProvider}
+ * {@code DataTranslatorContext}
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-final class SimpleResourceDataProvider implements ConfigurationDataProvider {
+public interface DataTranslatorContext {
 
-	private final ResourceBundle resources;
+	AnnotatedElement getTargetElement();
 
-	SimpleResourceDataProvider(ResourceBundle resources) {
-		this.resources = resources;
-	}
-
-	@Override
-	public boolean containsKey(String key) {
-		if (null == key) {
-			throw new NullPointerException();
-		}
-		return resources.containsKey(key);
-	}
-
-	@Override
-	public Object getRawObject(String key) {
-		if (null == key) {
-			throw new NullPointerException();
-		}
-		return resources.getObject(key);
-	}
+	Object[] getTargetArguments();
 
 }

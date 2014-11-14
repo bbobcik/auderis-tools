@@ -14,40 +14,41 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.resource;
+package cz.auderis.tools.config.spi;
 
-import cz.auderis.tools.config.ConfigurationDataProvider;
+import cz.auderis.tools.config.DataTranslatorContext;
 
-import java.util.ResourceBundle;
+import java.net.InetAddress;
 
 /**
- * {@code ResourceDataProvider}
+ * {@code InetAddressTranslator}
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-final class SimpleResourceDataProvider implements ConfigurationDataProvider {
+public class InetAddressTranslator extends SingleTargetClassTranslator {
 
-	private final ResourceBundle resources;
-
-	SimpleResourceDataProvider(ResourceBundle resources) {
-		this.resources = resources;
+	public InetAddressTranslator() {
+		super(InetAddress.class);
 	}
 
 	@Override
-	public boolean containsKey(String key) {
-		if (null == key) {
-			throw new NullPointerException();
-		}
-		return resources.containsKey(key);
+	public String getId() {
+		return "inet address translator";
 	}
 
 	@Override
-	public Object getRawObject(String key) {
-		if (null == key) {
-			throw new NullPointerException();
+	protected Object translate(Object source, DataTranslatorContext context) {
+		if (source instanceof String) {
+			final String textAddr = (String) source;
+			try {
+				final InetAddress result = InetAddress.getByName(textAddr);
+				return result;
+			} catch (Exception e) {
+				// Exception consumed
+			}
 		}
-		return resources.getObject(key);
+		return null;
 	}
 
 }

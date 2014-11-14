@@ -16,7 +16,7 @@
 
 package cz.auderis.tools.resource;
 
-import cz.auderis.tools.data.ConfigurationDataProvider;
+import cz.auderis.tools.config.ConfigurationDataProvider;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

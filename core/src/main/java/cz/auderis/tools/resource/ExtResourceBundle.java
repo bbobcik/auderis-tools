@@ -16,8 +16,8 @@
 
 package cz.auderis.tools.resource;
 
-import cz.auderis.tools.data.ConfigurationData;
-import cz.auderis.tools.data.StandardJavaTranslator;
+import cz.auderis.tools.config.ConfigurationData;
+import cz.auderis.tools.config.StandardJavaTranslator;
 
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;

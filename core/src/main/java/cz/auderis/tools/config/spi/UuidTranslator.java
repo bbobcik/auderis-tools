@@ -14,40 +14,40 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.resource;
+package cz.auderis.tools.config.spi;
 
-import cz.auderis.tools.config.ConfigurationDataProvider;
+import cz.auderis.tools.config.DataTranslatorContext;
 
-import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
- * {@code ResourceDataProvider}
+ * {@code UuidTranslator}
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-final class SimpleResourceDataProvider implements ConfigurationDataProvider {
+public class UuidTranslator extends SingleTargetClassTranslator {
 
-	private final ResourceBundle resources;
-
-	SimpleResourceDataProvider(ResourceBundle resources) {
-		this.resources = resources;
+	public UuidTranslator() {
+		super(UUID.class);
 	}
 
 	@Override
-	public boolean containsKey(String key) {
-		if (null == key) {
-			throw new NullPointerException();
-		}
-		return resources.containsKey(key);
+	public String getId() {
+		return "UUID translator";
 	}
 
 	@Override
-	public Object getRawObject(String key) {
-		if (null == key) {
-			throw new NullPointerException();
+	protected Object translate(Object source, DataTranslatorContext context) {
+		if (source instanceof String) {
+			try {
+				final UUID result = UUID.fromString((String) source);
+				return result;
+			} catch (Exception e) {
+				// Exception silently consumed
+			}
 		}
-		return resources.getObject(key);
+		return null;
 	}
 
 }

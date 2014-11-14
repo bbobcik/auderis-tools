@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.resource;
+package cz.auderis.tools.config.spi;
 
 import cz.auderis.tools.config.ConfigurationDataProvider;
 
-import java.util.ResourceBundle;
-
 /**
- * {@code ResourceDataProvider}
+ * {@code SystemPropertyDataProvider}
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-final class SimpleResourceDataProvider implements ConfigurationDataProvider {
+public class SystemPropertyDataProvider implements ConfigurationDataProvider {
 
-	private final ResourceBundle resources;
+	private static final SystemPropertyDataProvider INSTANCE = new SystemPropertyDataProvider();
 
-	SimpleResourceDataProvider(ResourceBundle resources) {
-		this.resources = resources;
+	public static SystemPropertyDataProvider instance() {
+		return INSTANCE;
 	}
 
 	@Override
@@ -39,7 +37,7 @@ final class SimpleResourceDataProvider implements ConfigurationDataProvider {
 		if (null == key) {
 			throw new NullPointerException();
 		}
-		return resources.containsKey(key);
+		return System.getProperties().containsKey(key);
 	}
 
 	@Override
@@ -47,7 +45,10 @@ final class SimpleResourceDataProvider implements ConfigurationDataProvider {
 		if (null == key) {
 			throw new NullPointerException();
 		}
-		return resources.getObject(key);
+		return System.getProperty(key);
+	}
+
+	private SystemPropertyDataProvider() {
 	}
 
 }

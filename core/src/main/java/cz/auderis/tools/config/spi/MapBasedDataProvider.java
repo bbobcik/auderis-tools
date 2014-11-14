@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.resource;
+package cz.auderis.tools.config.spi;
 
 import cz.auderis.tools.config.ConfigurationDataProvider;
 
-import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * {@code ResourceDataProvider}
+ * {@code MapBasedDataProvider}
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-final class SimpleResourceDataProvider implements ConfigurationDataProvider {
+public class MapBasedDataProvider implements ConfigurationDataProvider {
 
-	private final ResourceBundle resources;
+	private final Map<String, ?> dataSource;
 
-	SimpleResourceDataProvider(ResourceBundle resources) {
-		this.resources = resources;
+	public MapBasedDataProvider(Map<String, ?> dataSource) {
+		if (null == dataSource) {
+			throw new NullPointerException();
+		}
+		this.dataSource = new HashMap<String, Object>(dataSource);
 	}
 
 	@Override
@@ -39,7 +43,7 @@ final class SimpleResourceDataProvider implements ConfigurationDataProvider {
 		if (null == key) {
 			throw new NullPointerException();
 		}
-		return resources.containsKey(key);
+		return dataSource.containsKey(key);
 	}
 
 	@Override
@@ -47,7 +51,7 @@ final class SimpleResourceDataProvider implements ConfigurationDataProvider {
 		if (null == key) {
 			throw new NullPointerException();
 		}
-		return resources.getObject(key);
+		return dataSource.get(key);
 	}
 
 }

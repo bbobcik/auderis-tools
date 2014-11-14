@@ -16,7 +16,7 @@
 
 package cz.auderis.tools.resource;
 
-import cz.auderis.tools.data.ConfigurationData;
+import cz.auderis.tools.config.ConfigurationData;
 
 import java.util.ArrayList;
 import java.util.Arrays;

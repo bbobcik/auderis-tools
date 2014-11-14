@@ -14,32 +14,48 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.resource;
+package cz.auderis.tools.config.spi;
 
 import cz.auderis.tools.config.ConfigurationDataProvider;
 
-import java.util.ResourceBundle;
+import java.util.Arrays;
 
 /**
- * {@code ResourceDataProvider}
+ * {@code CascadingDataProvider}
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-final class SimpleResourceDataProvider implements ConfigurationDataProvider {
+public class CompoundDataProvider implements ConfigurationDataProvider {
 
-	private final ResourceBundle resources;
+	private final ConfigurationDataProvider[] delegates;
 
-	SimpleResourceDataProvider(ResourceBundle resources) {
-		this.resources = resources;
+	public CompoundDataProvider(ConfigurationDataProvider... providers) {
+		if (null == providers) {
+			throw new NullPointerException();
+		} else if (0 == providers.length) {
+			throw new IllegalArgumentException("no providers were specified");
+		}
+		for (ConfigurationDataProvider p : providers) {
+			if (null == p) {
+				throw new IllegalArgumentException("null provider specified");
+			}
+		}
+		this.delegates = Arrays.copyOf(providers, providers.length);
 	}
+
 
 	@Override
 	public boolean containsKey(String key) {
 		if (null == key) {
 			throw new NullPointerException();
 		}
-		return resources.containsKey(key);
+		for (ConfigurationDataProvider delegate : delegates) {
+			if (delegate.containsKey(key)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -47,7 +63,12 @@ final class SimpleResourceDataProvider implements ConfigurationDataProvider {
 		if (null == key) {
 			throw new NullPointerException();
 		}
-		return resources.getObject(key);
+		for (ConfigurationDataProvider delegate : delegates) {
+			if (delegate.containsKey(key)) {
+				return delegate.getRawObject(key);
+			}
+		}
+		return null;
 	}
 
 }

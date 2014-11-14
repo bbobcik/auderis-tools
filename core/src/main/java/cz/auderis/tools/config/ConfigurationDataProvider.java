@@ -14,40 +14,18 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.resource;
-
-import cz.auderis.tools.config.ConfigurationDataProvider;
-
-import java.util.ResourceBundle;
+package cz.auderis.tools.config;
 
 /**
- * {@code ResourceDataProvider}
+ * {@code ResourceProvider}
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-final class SimpleResourceDataProvider implements ConfigurationDataProvider {
+public interface ConfigurationDataProvider {
 
-	private final ResourceBundle resources;
+	boolean containsKey(String key);
 
-	SimpleResourceDataProvider(ResourceBundle resources) {
-		this.resources = resources;
-	}
-
-	@Override
-	public boolean containsKey(String key) {
-		if (null == key) {
-			throw new NullPointerException();
-		}
-		return resources.containsKey(key);
-	}
-
-	@Override
-	public Object getRawObject(String key) {
-		if (null == key) {
-			throw new NullPointerException();
-		}
-		return resources.getObject(key);
-	}
+	Object getRawObject(String key);
 
 }
