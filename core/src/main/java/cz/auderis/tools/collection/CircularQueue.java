@@ -301,7 +301,7 @@ public class CircularQueue<E> implements Collection<E> {
 	 * The type Queue entry.
 	 * @param <E>  the type parameter
 	 */
-	protected static final class QueueEntry<E> {
+	static final class QueueEntry<E> {
 		/**
 		 * The Data.
 		 */
@@ -320,7 +320,7 @@ public class CircularQueue<E> implements Collection<E> {
 	/**
 	 * The type Wrapping iterator.
 	 */
-	protected final class WrappingIterator implements Iterator<E> {
+	final class WrappingIterator implements Iterator<E> {
 		private final long dataVersion;
 
 		// Not constrained into interval [0, capacity-1]!

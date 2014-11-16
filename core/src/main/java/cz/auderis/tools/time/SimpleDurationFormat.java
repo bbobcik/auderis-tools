@@ -250,7 +250,7 @@ public abstract class SimpleDurationFormat implements Serializable {
 		FORMAT_CACHE = new HashMap<Locale, SimpleDurationFormat>();
 	}
 
-	protected static class LocalizedDurationFormat extends SimpleDurationFormat {
+	static class LocalizedDurationFormat extends SimpleDurationFormat {
 		private static final long serialVersionUID = 1L;
 
 		private static final String SPACE = "\u0020";

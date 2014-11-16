@@ -124,7 +124,7 @@ public final class BooleanStyle {
 	private StyleImpl delegate;
 	private boolean blankFalse;
 
-	protected interface StyleImpl {
+	interface StyleImpl {
 		String getMark(boolean value);
 		boolean isTrue(String textValue);
 		boolean isFalse(String textValue);
@@ -132,7 +132,7 @@ public final class BooleanStyle {
 		StyleImpl getLongVersion();
 	}
 
-	protected static enum BasicStyleImpl implements StyleImpl {
+	static enum BasicStyleImpl implements StyleImpl {
 		TRUE_FALSE {
 			@Override public String getMark(boolean value) { return value ? "true" : "false"; }
 			@Override public boolean isTrue(String textValue) { return "true".equalsIgnoreCase(textValue); }
@@ -187,7 +187,7 @@ public final class BooleanStyle {
 		;
 	}
 
-	protected static class CustomStyleImpl implements StyleImpl {
+	static class CustomStyleImpl implements StyleImpl {
 		private final String trueValue;
 		private final String falseValue;
 

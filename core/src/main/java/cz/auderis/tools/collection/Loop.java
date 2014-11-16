@@ -254,7 +254,7 @@ public abstract class Loop<T> {
 	 * The type Basic iterable loop.
 	 * @param <E>  the type parameter
 	 */
-	protected static class BasicIterableLoop<E> extends Loop<E> implements Iterator<Loop<E>>, Iterable<Loop<E>> {
+	static class BasicIterableLoop<E> extends Loop<E> implements Iterator<Loop<E>>, Iterable<Loop<E>> {
 
 		private final transient Iterator<? extends E> baseIterator;
 		private transient int index;
@@ -383,7 +383,7 @@ public abstract class Loop<T> {
 	 * The type List loop.
 	 * @param <E>  the type parameter
 	 */
-	protected static final class ListLoop<E> extends BasicIterableLoop<E> {
+	static final class ListLoop<E> extends BasicIterableLoop<E> {
 
 		@SuppressWarnings("rawtypes")
 		private final transient List baseList;
@@ -415,8 +415,7 @@ public abstract class Loop<T> {
 	/**
 	 * The type Empty loop.
 	 */
-	protected static final class EmptyLoop extends Loop<Object>
-			implements Iterable<Loop<Object>>, Iterator<Loop<Object>> {
+	static final class EmptyLoop extends Loop<Object> implements Iterable<Loop<Object>>, Iterator<Loop<Object>> {
 
 		/**
 		 * Instantiates a new Empty loop.
@@ -485,8 +484,7 @@ public abstract class Loop<T> {
 	 * The type Abstract array loop.
 	 * @param <E>  the type parameter
 	 */
-	protected abstract static class AbstractArrayLoop<E> extends Loop<E>
-			implements Iterator<Loop<E>>, Iterable<Loop<E>> {
+	abstract static class AbstractArrayLoop<E> extends Loop<E> implements Iterator<Loop<E>>, Iterable<Loop<E>> {
 
 		private final transient int length;
 		/**
@@ -617,7 +615,7 @@ public abstract class Loop<T> {
 	 * The type Normal array loop.
 	 * @param <E>  the type parameter
 	 */
-	protected static final class NormalArrayLoop<E> extends AbstractArrayLoop<E> {
+	static final class NormalArrayLoop<E> extends AbstractArrayLoop<E> {
 
 		private final transient E[] baseArray;
 
@@ -674,7 +672,7 @@ public abstract class Loop<T> {
 	/**
 	 * The type Int array loop.
 	 */
-	protected static final class IntArrayLoop extends AbstractArrayLoop<Integer> {
+	static final class IntArrayLoop extends AbstractArrayLoop<Integer> {
 		private final transient int[] baseArray;
 
 		/**
@@ -701,7 +699,7 @@ public abstract class Loop<T> {
 	/**
 	 * The type Long array loop.
 	 */
-	protected static final class LongArrayLoop extends AbstractArrayLoop<Long> {
+	static final class LongArrayLoop extends AbstractArrayLoop<Long> {
 		private final transient long[] baseArray;
 
 		/**
@@ -728,7 +726,7 @@ public abstract class Loop<T> {
 	/**
 	 * The type Short array loop.
 	 */
-	protected static final class ShortArrayLoop extends AbstractArrayLoop<Short> {
+	static final class ShortArrayLoop extends AbstractArrayLoop<Short> {
 		private final transient short[] baseArray;
 
 		/**
@@ -755,7 +753,7 @@ public abstract class Loop<T> {
 	/**
 	 * The type Byte array loop.
 	 */
-	protected static final class ByteArrayLoop extends AbstractArrayLoop<Byte> {
+	static final class ByteArrayLoop extends AbstractArrayLoop<Byte> {
 		private final transient byte[] baseArray;
 
 		/**
@@ -782,7 +780,7 @@ public abstract class Loop<T> {
 	/**
 	 * The type Char array loop.
 	 */
-	protected static final class CharArrayLoop extends AbstractArrayLoop<Character> {
+	static final class CharArrayLoop extends AbstractArrayLoop<Character> {
 		private final transient char[] baseArray;
 
 		/**
@@ -809,7 +807,7 @@ public abstract class Loop<T> {
 	/**
 	 * The type Boolean array loop.
 	 */
-	protected static final class BooleanArrayLoop extends AbstractArrayLoop<Boolean> {
+	static final class BooleanArrayLoop extends AbstractArrayLoop<Boolean> {
 		private final transient boolean[] baseArray;
 
 		/**
@@ -836,7 +834,7 @@ public abstract class Loop<T> {
 	/**
 	 * The type Char sequence loop.
 	 */
-	protected static final class CharSequenceLoop extends AbstractArrayLoop<Character> {
+	static final class CharSequenceLoop extends AbstractArrayLoop<Character> {
 		private final transient CharSequence baseText;
 
 		/**
@@ -863,7 +861,7 @@ public abstract class Loop<T> {
 	/**
 	 * The type Range loop.
 	 */
-	protected static final class RangeLoop extends AbstractArrayLoop<Integer> {
+	static final class RangeLoop extends AbstractArrayLoop<Integer> {
 		private final transient int start;
 
 		/**
@@ -901,20 +899,21 @@ public abstract class Loop<T> {
 	/**
 	 * The constant ERR_TRANSIENT.
 	 */
-	protected static final String ERR_TRANSIENT = "loop item is transient object, use its value instead";
+	static final String ERR_TRANSIENT = "loop item is transient object, use its value instead";
 	/**
 	 * The constant ERR_NOT_ACTIVE.
 	 */
-	protected static final String ERR_NOT_ACTIVE = "loop not active";
+	static final String ERR_NOT_ACTIVE = "loop not active";
 	/**
 	 * The constant ERR_STOPPED.
 	 */
-	protected static final String ERR_STOPPED = "loop was stopped";
+	static final String ERR_STOPPED = "loop was stopped";
 	/**
 	 * The constant ERR_REMOVED.
 	 */
-	protected static final String ERR_REMOVED = "loop item was already removed";
+	static final String ERR_REMOVED = "loop item was already removed";
 
 	@SuppressWarnings("rawtypes")
 	private static final Iterable EMPTY_LOOP = new EmptyLoop();
+
 }

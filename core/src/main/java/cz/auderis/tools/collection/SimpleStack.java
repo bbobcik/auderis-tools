@@ -141,7 +141,7 @@ public class SimpleStack<T> {
 	 * The type Item.
 	 * @param <T>  the type parameter
 	 */
-	protected static class Item<T> {
+	static class Item<T> {
 		/**
 		 * The Value.
 		 */

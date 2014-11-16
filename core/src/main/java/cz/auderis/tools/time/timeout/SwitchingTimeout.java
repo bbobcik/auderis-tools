@@ -241,7 +241,7 @@ public class SwitchingTimeout extends AbstractBeanBasedTimeout {
 		return str.toString();
 	}
 
-	protected static class TimeoutRecord implements Serializable {
+	static class TimeoutRecord implements Serializable {
 
 		private static final long serialVersionUID = -8941865969050966469L;
 
@@ -282,7 +282,7 @@ public class SwitchingTimeout extends AbstractBeanBasedTimeout {
 		}
 	}
 
-	protected final class PropertyChangeForwarder implements PropertyChangeListener {
+	final class PropertyChangeForwarder implements PropertyChangeListener {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			final String propertyName = evt.getPropertyName();

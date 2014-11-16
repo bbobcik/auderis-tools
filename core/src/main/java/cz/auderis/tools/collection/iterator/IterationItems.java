@@ -95,7 +95,7 @@ public final class IterationItems<T> implements Iterable<IterationItem<T>> {
 	 * The type Iterable item wrapper.
 	 * @param <E>  the type parameter
 	 */
-	protected static final class IterableItemWrapper<E> implements IterationItem<E>, Iterator<IterationItem<E>> {
+	static final class IterableItemWrapper<E> implements IterationItem<E>, Iterator<IterationItem<E>> {
 
 		private final Iterator<? extends E> baseIterator;
 		private int index;

@@ -68,7 +68,7 @@ public final class TimeProviders {
 	/**
 	 * This enum provides safe singleton instances of {@code TimeProvider}
 	 */
-	protected static enum ProviderImpl implements TimeProvider {
+	static enum ProviderImpl implements TimeProvider {
 		/**
 		 * {@code TimeProvider} based on {@link System#nanoTime()} real-time
 		 * clock.

@@ -205,7 +205,7 @@ public class SimpleCache<K, V> {
 	 * The type Cache entry.
 	 * @param <W>  the type parameter
 	 */
-	protected static final class CacheEntry<W> {
+	static final class CacheEntry<W> {
 
 		// Invariant: either nullStored is true or valueRef != null
 		private boolean nullStored;
