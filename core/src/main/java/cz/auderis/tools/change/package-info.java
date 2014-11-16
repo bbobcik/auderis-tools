@@ -41,5 +41,6 @@
  * </pre>
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
- * @version 1.0 */
+ * @version 1.0
+ */
 package cz.auderis.tools.change;
