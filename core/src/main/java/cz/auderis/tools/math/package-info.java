@@ -14,40 +14,10 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.math;
-
 /**
- * The interface Number decomposition.
+ * Utility classes for less common mathematical operations.
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-public interface NumberDecomposition {
-	/**
-	 * Gets sign.
-	 *
-	 * @return the sign
-	 */
-	double getSign();
-
-	/**
-	 * Gets normalized value.
-	 *
-	 * @return the normalized value
-	 */
-	double getNormalizedValue();
-
-	/**
-	 * Gets unit.
-	 *
-	 * @return the unit
-	 */
-	double getUnit();
-
-	/**
-	 * Gets value.
-	 *
-	 * @return the value
-	 */
-	double getValue();
-}
+package cz.auderis.tools.math;

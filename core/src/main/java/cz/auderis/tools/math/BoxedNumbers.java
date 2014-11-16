@@ -21,9 +21,21 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type Boxed numbers.
+ *
+ * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
+ * @version 1.0
+ */
 public final class BoxedNumbers {
 
+	/**
+	 * The constant INTEGER_CLASSES.
+	 */
 	public static final Set<Class<? extends Number>> INTEGER_CLASSES;
+	/**
+	 * The constant FLOAT_CLASSES.
+	 */
 	public static final Set<? extends Class<?>> FLOAT_CLASSES;
 
 	static {
@@ -35,6 +47,12 @@ public final class BoxedNumbers {
 		FLOAT_CLASSES = Collections.unmodifiableSet(floatClasses);
 	}
 
+	/**
+	 * Is boxed number class.
+	 *
+	 * @param cls the cls
+	 * @return the boolean
+	 */
 	public static boolean isBoxedNumberClass(Class<?> cls) {
 		if (null == cls) {
 			throw new NullPointerException();
@@ -42,6 +60,12 @@ public final class BoxedNumbers {
 		return INTEGER_CLASSES.contains(cls) || FLOAT_CLASSES.contains(cls);
 	}
 
+	/**
+	 * Is boxed number.
+	 *
+	 * @param value the value
+	 * @return the boolean
+	 */
 	public static boolean isBoxedNumber(Object value) {
 		if (null == value) {
 			return false;
@@ -49,6 +73,13 @@ public final class BoxedNumbers {
 		return isBoxedNumberClass(value.getClass());
 	}
 
+	/**
+	 * Is convertible.
+	 *
+	 * @param fromClass the from class
+	 * @param toClass the to class
+	 * @return the boolean
+	 */
 	public static boolean isConvertible(Class<?> fromClass, Class<?> toClass) {
 		if ((null == fromClass) || (null == toClass)) {
 			throw new NullPointerException();
@@ -61,6 +92,14 @@ public final class BoxedNumbers {
 		return false;
 	}
 
+	/**
+	 * Convert safely.
+	 *
+	 * @param <T>  the type parameter
+	 * @param value the value
+	 * @param toClass the to class
+	 * @return the t
+	 */
 	public static <T> T convertSafely(Object value, Class<T> toClass) {
 		if (null == toClass) {
 			throw new NullPointerException();

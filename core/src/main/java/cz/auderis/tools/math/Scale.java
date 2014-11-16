@@ -17,6 +17,7 @@
 package cz.auderis.tools.math;
 
 /**
+ * The type Scale.
  * @author Boleslav Bobcik
  * @version 1.0
  */
@@ -26,8 +27,10 @@ public final class Scale {
 	private static final double LN10 = Math.log(10.0);
 
 	/**
-	 * @param x
-	 * @return
+	 * Magnitude double.
+	 *
+	 * @param x the x
+	 * @return double
 	 */
 	public static double magnitude(double x) {
 		if (Double.isNaN(x)) {
@@ -41,8 +44,10 @@ public final class Scale {
 	}
 
 	/**
-	 * @param x
-	 * @return
+	 * Unit from number.
+	 *
+	 * @param x the x
+	 * @return double
 	 */
 	public static double unitFromNumber(double x) {
 		if (Double.isNaN(x)) {
@@ -56,8 +61,10 @@ public final class Scale {
 	}
 
 	/**
-	 * @param mag
-	 * @return
+	 * Unit from magnitude.
+	 *
+	 * @param mag the mag
+	 * @return double
 	 */
 	public static double unitFromMagnitude(double mag) {
 		if (Double.isNaN(mag)) {
@@ -71,8 +78,10 @@ public final class Scale {
 	}
 
 	/**
-	 * @param x
-	 * @return
+	 * Normalize double.
+	 *
+	 * @param x the x
+	 * @return double
 	 */
 	public static double normalize(double x) {
 		if (Double.isNaN(x) || Double.isInfinite(x) || (0.0 == x)) {
@@ -83,8 +92,10 @@ public final class Scale {
 	}
 
 	/**
-	 * @param x
-	 * @return
+	 * Decompose number decomposition.
+	 *
+	 * @param x the x
+	 * @return number decomposition
 	 */
 	public static NumberDecomposition decompose(double x) {
 		if (Double.isNaN(x)) {
@@ -119,6 +130,9 @@ public final class Scale {
 	}
 
 	private enum SpecialDecomposition implements NumberDecomposition {
+		/**
+		 * The ZERO.
+		 */
 		ZERO {
 			@Override
 			public double getNormalizedValue() {
@@ -140,6 +154,9 @@ public final class Scale {
 				return 0.0;
 			}
 		},
+		/**
+		 * The POS_INF.
+		 */
 		POS_INF {
 			@Override
 			public double getNormalizedValue() {
@@ -161,6 +178,9 @@ public final class Scale {
 				return Double.POSITIVE_INFINITY;
 			}
 		},
+		/**
+		 * The NEG_INF.
+		 */
 		NEG_INF {
 			@Override
 			public double getNormalizedValue() {
@@ -182,6 +202,9 @@ public final class Scale {
 				return Double.NEGATIVE_INFINITY;
 			}
 		},
+		/**
+		 * The NAN.
+		 */
 		NAN {
 			@Override
 			public double getNormalizedValue() {
@@ -214,6 +237,14 @@ public final class Scale {
 
 		private final double unit;
 
+		/**
+		 * Instantiates a new Regular decomposition.
+		 *
+		 * @param value the value
+		 * @param sign the sign
+		 * @param norm the norm
+		 * @param unit the unit
+		 */
 		protected RegularDecomposition(double value, double sign, double norm, double unit) {
 			this.value = value;
 			this.sign = sign;
