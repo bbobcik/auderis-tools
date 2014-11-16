@@ -16,6 +16,8 @@
 
 package cz.auderis.tools.math;
 
+import java.math.BigDecimal;
+
 /**
  * Collection of methods for rounding real numbers. The functions are provided in two variants:
  * <ul>
@@ -43,6 +45,13 @@ public final class Round {
 	 */
 	public static double floor(double x) {
 		return Math.floor(x);
+	}
+
+	public static BigDecimal floor(BigDecimal x) {
+		if (null == x) {
+			throw new NullPointerException();
+		}
+		return x.divide(BigDecimal.ONE, 0, BigDecimal.ROUND_FLOOR);
 	}
 
 	/**
@@ -76,6 +85,15 @@ public final class Round {
 		return baseStep * Math.floor(x / baseStep);
 	}
 
+	public static BigDecimal floor(BigDecimal x, BigDecimal baseStep) {
+		if ((null == x) || (null == baseStep)) {
+			throw new NullPointerException();
+		} else if (!isPositiveNumber(baseStep)) {
+			throw new IllegalArgumentException(NONPOSITIVE_BASE_STEP);
+		}
+		return baseStep.multiply(x.divide(baseStep, 0, BigDecimal.ROUND_FLOOR));
+	}
+
 	/**
 	 * Rounds the number to the least integer <code>n</code>, such that <code>x &le; n</code>. Special cases are:
 	 * <ul>
@@ -90,6 +108,13 @@ public final class Round {
 	 */
 	public static double ceiling(double x) {
 		return Math.ceil(x);
+	}
+
+	public static BigDecimal ceiling(BigDecimal x) {
+		if (null == x) {
+			throw new NullPointerException();
+		}
+		return x.divide(BigDecimal.ONE, 0, BigDecimal.ROUND_CEILING);
 	}
 
 	/**
@@ -123,6 +148,15 @@ public final class Round {
 		return baseStep * Math.ceil(x / baseStep);
 	}
 
+	public static BigDecimal ceiling(BigDecimal x, BigDecimal baseStep) {
+		if ((null == x) || (null == baseStep)) {
+			throw new NullPointerException();
+		} else if (!isPositiveNumber(baseStep)) {
+			throw new IllegalArgumentException(NONPOSITIVE_BASE_STEP);
+		}
+		return baseStep.multiply(x.divide(baseStep, 0, BigDecimal.ROUND_CEILING));
+	}
+
 	/**
 	 * Rounds the number to the nearest integer, absolute value of which is greater than or equal to absolute value of
 	 * the source number. Formally, for non-zero <code>x</code>, <code>truncFromZero(x) = n</code> such that
@@ -146,6 +180,13 @@ public final class Round {
 			return x;
 		}
 		return (x >= 0) ? Math.ceil(x) : Math.floor(x);
+	}
+
+	public static BigDecimal truncFromZero(BigDecimal x) {
+		if (null == x) {
+			throw new NullPointerException();
+		}
+		return x.divide(BigDecimal.ONE, 0, BigDecimal.ROUND_UP);
 	}
 
 	/**
@@ -183,6 +224,15 @@ public final class Round {
 		}
 	}
 
+	public static BigDecimal truncFromZero(BigDecimal x, BigDecimal baseStep) {
+		if ((null == x) || (null == baseStep)) {
+			throw new NullPointerException();
+		} else if (!isPositiveNumber(baseStep)) {
+			throw new IllegalArgumentException(NONPOSITIVE_BASE_STEP);
+		}
+		return baseStep.multiply(x.divide(baseStep, 0, BigDecimal.ROUND_UP));
+	}
+
 	/**
 	 * Rounds the number to the nearest integer, absolute value of which is less than or equal to absolute value of the
 	 * source number. Formally, for <code>x</code> (where <code>abs(x)</code> &ge; 1),
@@ -206,6 +256,13 @@ public final class Round {
 			return x;
 		}
 		return (x >= 0) ? Math.floor(x) : Math.ceil(x);
+	}
+
+	public static BigDecimal truncTowardsZero(BigDecimal x) {
+		if (null == x) {
+			throw new NullPointerException();
+		}
+		return x.divide(BigDecimal.ONE, 0, BigDecimal.ROUND_DOWN);
 	}
 
 	/**
@@ -246,6 +303,15 @@ public final class Round {
 		}
 	}
 
+	public static BigDecimal truncTowardsZero(BigDecimal x, BigDecimal baseStep) {
+		if ((null == x) || (null == baseStep)) {
+			throw new NullPointerException();
+		} else if (!isPositiveNumber(baseStep)) {
+			throw new IllegalArgumentException(NONPOSITIVE_BASE_STEP);
+		}
+		return baseStep.multiply(x.divide(baseStep, 0, BigDecimal.ROUND_DOWN));
+	}
+
 	/**
 	 * Rounds the number to a nearest integer. If the distance to surrounding integers is equal, the result is the
 	 * integer with greater absolute value.
@@ -275,6 +341,13 @@ public final class Round {
 		}
 	}
 
+	public static BigDecimal halfFromZero(BigDecimal x) {
+		if (null == x) {
+			throw new NullPointerException();
+		}
+		return x.divide(BigDecimal.ONE, 0, BigDecimal.ROUND_HALF_UP);
+	}
+
 	/**
 	 * Rounds the number to a nearest integral multiple of the base step value. If two base step multiples have equal
 	 * distance to the number <b>x</b>, the multiple with greater absolute value is returned.
@@ -298,6 +371,15 @@ public final class Round {
 		} else {
 			return baseStep * Math.ceil(x / baseStep - HALF_FACTOR);
 		}
+	}
+
+	public static BigDecimal halfFromZero(BigDecimal x, BigDecimal baseStep) {
+		if ((null == x) || (null == baseStep)) {
+			throw new NullPointerException();
+		} else if (!isPositiveNumber(baseStep)) {
+			throw new IllegalArgumentException(NONPOSITIVE_BASE_STEP);
+		}
+		return baseStep.multiply(x.divide(baseStep, 0, BigDecimal.ROUND_HALF_UP));
 	}
 
 	/**
@@ -329,6 +411,13 @@ public final class Round {
 		}
 	}
 
+	public static BigDecimal halfTowardsZero(BigDecimal x) {
+		if (null == x) {
+			throw new NullPointerException();
+		}
+		return x.divide(BigDecimal.ONE, 0, BigDecimal.ROUND_HALF_DOWN);
+	}
+
 	/**
 	 * Rounds the number to a nearest integral multiple of the base step value. If two base step multiples have equal
 	 * distance to the number <b>x</b>, the multiple with smaller absolute value is returned.
@@ -352,6 +441,15 @@ public final class Round {
 		} else {
 			return baseStep * Math.floor(x / baseStep + HALF_FACTOR);
 		}
+	}
+
+	public static BigDecimal halfTowardsZero(BigDecimal x, BigDecimal baseStep) {
+		if ((null == x) || (null == baseStep)) {
+			throw new NullPointerException();
+		} else if (!isPositiveNumber(baseStep)) {
+			throw new IllegalArgumentException(NONPOSITIVE_BASE_STEP);
+		}
+		return baseStep.multiply(x.divide(baseStep, 0, BigDecimal.ROUND_HALF_DOWN));
 	}
 
 	/**
@@ -379,6 +477,14 @@ public final class Round {
 		return Math.floor(x + HALF_FACTOR);
 	}
 
+	public static BigDecimal halfUp(BigDecimal x) {
+		if (null == x) {
+			throw new NullPointerException();
+		}
+		final int roundMode = (x.signum() >= 0) ? BigDecimal.ROUND_HALF_UP : BigDecimal.ROUND_HALF_DOWN;
+		return x.divide(BigDecimal.ONE, 0, roundMode);
+	}
+
 	/**
 	 * Rounds the number to a nearest integral multiple of the base step value. If two base step multiples have equal
 	 * distance to the number <b>x</b>, the greater multiple of the two candidates is returned.
@@ -399,6 +505,16 @@ public final class Round {
 			return x;
 		}
 		return baseStep * Math.floor(x / baseStep + HALF_FACTOR);
+	}
+
+	public static BigDecimal halfUp(BigDecimal x, BigDecimal baseStep) {
+		if ((null == x) || (null == baseStep)) {
+			throw new NullPointerException();
+		} else if (!isPositiveNumber(baseStep)) {
+			throw new IllegalArgumentException(NONPOSITIVE_BASE_STEP);
+		}
+		final int roundMode = (x.signum() >= 0) ? BigDecimal.ROUND_HALF_UP : BigDecimal.ROUND_HALF_DOWN;
+		return baseStep.multiply(x.divide(baseStep, 0, roundMode));
 	}
 
 	/**
@@ -426,6 +542,14 @@ public final class Round {
 		return Math.ceil(x - HALF_FACTOR);
 	}
 
+	public static BigDecimal halfDown(BigDecimal x) {
+		if (null == x) {
+			throw new NullPointerException();
+		}
+		final int roundMode = (x.signum() >= 0) ? BigDecimal.ROUND_HALF_DOWN : BigDecimal.ROUND_HALF_UP;
+		return x.divide(BigDecimal.ONE, 0, roundMode);
+	}
+
 	/**
 	 * Rounds the number to a nearest integral multiple of the base step value. If two base step multiples have equal
 	 * distance to the number <b>x</b>, the smaller multiple of the two candidates is returned.
@@ -446,6 +570,16 @@ public final class Round {
 			return x;
 		}
 		return baseStep * Math.ceil(x / baseStep - HALF_FACTOR);
+	}
+
+	public static BigDecimal halfDown(BigDecimal x, BigDecimal baseStep) {
+		if ((null == x) || (null == baseStep)) {
+			throw new NullPointerException();
+		} else if (!isPositiveNumber(baseStep)) {
+			throw new IllegalArgumentException(NONPOSITIVE_BASE_STEP);
+		}
+		final int roundMode = (x.signum() >= 0) ? BigDecimal.ROUND_HALF_DOWN : BigDecimal.ROUND_HALF_UP;
+		return baseStep.multiply(x.divide(baseStep, 0, roundMode));
 	}
 
 	/**
@@ -601,6 +735,10 @@ public final class Round {
 
 	private static boolean isPositiveNumber(double num) {
 		return !(Double.isNaN(num) || Double.isInfinite(num) || num <= 0.0);
+	}
+
+	private static boolean isPositiveNumber(BigDecimal num) {
+		return 0 < num.signum();
 	}
 
 	private static boolean isFraction(double num) {
