@@ -3,7 +3,7 @@
     
     <groupId>cz.auderis</groupId>
     <artifactId>auderis-tools-parent</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>Auderis Tools - parent project</name>
@@ -34,8 +34,7 @@
         <connection>scm:git:git@github.com:bbobcik/auderis-tools.git</connection>
         <developerConnection>scm:git:git@github.com:bbobcik/auderis-tools.git</developerConnection>
         <url>git@github.com:bbobcik/auderis-tools.git</url>
-      <tag>auderis-tools-parent-0.0.1</tag>
-  </scm>
+    </scm>
 
     <modules>
         <module>core</module>
