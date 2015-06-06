@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.change;
+package cz.auderis.tools.model.change;
 
 import java.util.Set;
 

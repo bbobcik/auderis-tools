@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package cz.auderis.tools.change;
-
-import cz.auderis.tools.collection.AlwaysEmptySet;
+package cz.auderis.tools.model.change;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -43,7 +41,7 @@ import java.util.Set;
  */
 public class BasicChangeTracker implements ChangeTracker {
 
-	private static final Set<String> PROPERTY_IGNORING_SET = new AlwaysEmptySet<String>();
+	private static final Set<String> PROPERTY_IGNORING_SET = new BlackHoleSet<String>();
 
 	private int changeCounter;
 	private Set<String> changedProperties;

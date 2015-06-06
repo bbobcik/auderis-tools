@@ -21,7 +21,7 @@
  * change recording.
  * <p>
  * <b>Explicit change recording</b> depends on the user of change tracker to
- * invoke appropriate methods, such as {@link cz.auderis.tools.change.ChangeTracker#markChange()}.
+ * invoke appropriate methods, such as {@link cz.auderis.tools.model.change.ChangeTracker#markChange()}.
  * The programming idiom would be:
  * <pre>
  *     ChangeTracker tracker = ...
@@ -43,4 +43,4 @@
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-package cz.auderis.tools.change;
+package cz.auderis.tools.model.change;
