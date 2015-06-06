@@ -23,12 +23,8 @@ package cz.auderis.tools.time.timeout;
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
  */
-public interface
-		Timeout extends ExpirationTrigger {
+public interface Timeout extends ExpirationTrigger {
 
-	/**
-	 * The MAX _ pERCENT.
-	 */
 	int MAX_PERCENT = 100;
 
 	/**

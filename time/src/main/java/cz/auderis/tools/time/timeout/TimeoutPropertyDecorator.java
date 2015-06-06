@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * {@code TimeoutPropertyDecorator}
+ * Adds bean conforming behaviour of the timeout.
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
