@@ -42,6 +42,7 @@
 	    <module>model</module>
 	    <module>time</module>
 	    <module>config</module>
+	    <module>all</module>
     </modules>
 
     <dependencyManagement>

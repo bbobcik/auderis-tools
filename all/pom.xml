@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cz.auderis</groupId>
+        <artifactId>auderis-tools-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>auderis-tools-all</artifactId>
+    <packaging>jar</packaging>
+    
+    <name>Auderis Tools - aggregate module</name>
+    <description>Auderis Tools - aggregate module with all functionality</description>
+    <url>https://github.com/bbobcik/auderis-tools</url>
+    <inceptionYear>2014</inceptionYear>
+
+    <developers>
+        <developer>
+            <id>bbobcik</id>
+            <name>Boleslav Bobcik</name>
+            <email>bbobcik@gmail.com</email>
+            <organization>Boleslav Bobcik - Auderis</organization>
+            <organizationUrl>https://github.com/bbobcik</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+	<dependencies>
+		<dependency>
+			<groupId>cz.auderis</groupId>
+			<artifactId>auderis-tools-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cz.auderis</groupId>
+			<artifactId>auderis-tools-time</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cz.auderis</groupId>
+			<artifactId>auderis-tools-config</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cz.auderis</groupId>
+			<artifactId>auderis-tools-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals><goal>shade</goal></goals>
+						<configuration>
+							<artifactSet>
+								<includes>
+									<include>cz.auderis:auderis-tools-*:*:*</include>
+								</includes>
+							</artifactSet>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer" />
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
