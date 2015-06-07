@@ -27,7 +27,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * {@code StringDataObjectTest}
@@ -57,44 +62,58 @@ public class PluginDataObjectTest {
 				{ "a\\[\\d{3}\\]", "8.8.8.8", "8.4.8.4", "2001:db8:85a3:0:0:8a2e:370:7334", "f669dd2a-6722-11e4-b116-123b93f75cba", "xa[001]x" },
 		};
 		for (Object[] point : points) {
+			// Given
+			final Object matchPattern = point[0];
+			final Object referenceInetAddr = point[1];
+			final Object referenceIPv4 = point[2];
+			final Object referenceIPv6 = point[3];
+			final String referenceUUID = (String) point[4];
+			final CharSequence referenceMatch = (CharSequence) point[5];
 			final Map<String, ?> dataSource = ImmutableMap.of(
-					"thePattern", point[0],
-					"inetAddress", point[1],
-					"addr.ipv4", point[2],
-					"addr.ipv6", point[3],
-					"theUUID", point[4]
+					"thePattern", matchPattern,
+					"inetAddress", referenceInetAddr,
+					"addr.ipv4", referenceIPv4,
+					"addr.ipv6", referenceIPv6,
+					"theUUID", referenceUUID
 			);
 			final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
-			final CorePluginDataObject testObject = ConfigurationData.createConfigurationObject(data, CorePluginDataObject.class);
-			assertTrue(testObject.thePattern() instanceof Pattern);
-			assertTrue(testObject.inetAddress() instanceof InetAddress);
-			assertTrue(testObject.inetAddressIPv4() instanceof InetAddress);
-			assertTrue(testObject.inetAddressIPv4() instanceof Inet4Address);
-			assertTrue(testObject.inetAddressIPv6() instanceof InetAddress);
-			assertTrue(testObject.inetAddressIPv6() instanceof Inet6Address);
-			assertTrue(testObject.theUUID() instanceof UUID);
+
+			// When
+			final CorePluginDataObject testObject = ConfigurationData.createConfigurationObject(data,
+					CorePluginDataObject.class);
+
+			// Then
+			assertThat(testObject.thePattern(), instanceOf(Pattern.class));
+			assertThat(testObject.inetAddress(), instanceOf(InetAddress.class));
+			assertThat(testObject.inetAddressIPv4(), instanceOf(Inet4Address.class));
+			assertThat(testObject.inetAddressIPv6(), instanceOf(Inet6Address.class));
+			assertThat(testObject.theUUID(), instanceOf(UUID.class));
 			//
-			assertTrue(testObject.thePattern().matcher((CharSequence) point[5]).find());
-			assertEquals(point[1], testObject.inetAddress().getHostAddress());
-			assertEquals(point[2], testObject.inetAddressIPv4().getHostAddress());
-			assertEquals(point[3], testObject.inetAddressIPv6().getHostAddress());
-			assertEquals(((String) point[4]).toUpperCase(), testObject.theUUID().toString().toUpperCase());
+			assertTrue("reference match", testObject.thePattern().matcher(referenceMatch).find());
+			assertThat("generic IP address", testObject.inetAddress().getHostAddress(), is(referenceInetAddr));
+			assertThat("IPv4 address", testObject.inetAddressIPv4().getHostAddress(), is(referenceIPv4));
+			assertThat("IPv6 address", testObject.inetAddressIPv6().getHostAddress(), is(referenceIPv6));
+			assertThat("UUID", testObject.theUUID().toString(), equalToIgnoringCase(referenceUUID));
 		}
 	}
 
 	@Test
 	public void shouldUseMultipleCandidatePluginsInCorrectOrder() throws Exception {
-		Map<String, ?> dataSource = ImmutableMap.of(
+		// Given
+		final Map<String, ?> dataSource = ImmutableMap.of(
 				"resultA", this,
 				"resultB", this
 		);
 		final ConfigurationDataProvider data = ConfigurationData.getMapDataProvider(dataSource);
+
+		// When
 		final MultiPluginDataObject testObject = ConfigurationData.createConfigurationObject(data, MultiPluginDataObject.class);
-		assertNotNull(testObject.resultA());
-		assertNotNull(testObject.resultB());
-		//
-		assertEquals(HighPriorityTranslator.ID, testObject.resultA().source);
-		assertEquals(LowPriorityTranslator.ID, testObject.resultB().source);
+
+		// Then
+		assertThat("resultA", testObject.resultA(), notNullValue());
+		assertThat("resultB", testObject.resultB(), notNullValue());
+		assertThat(testObject.resultA().source, is(HighPriorityTranslator.ID));
+		assertThat(testObject.resultB().source, is(LowPriorityTranslator.ID));
 	}
 
 

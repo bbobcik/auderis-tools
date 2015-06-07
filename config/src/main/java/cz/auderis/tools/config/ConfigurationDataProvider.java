@@ -16,6 +16,7 @@
 
 package cz.auderis.tools.config;
 
+
 /**
  * {@code ResourceProvider}
  *
