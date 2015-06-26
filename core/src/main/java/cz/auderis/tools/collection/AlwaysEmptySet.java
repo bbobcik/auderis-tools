@@ -22,7 +22,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * The type Always empty set.
+ * This {@link Set} implementation works as a black hole, where {@code add()} operation is permitted,
+ * but doesn't have any effect.
+ *
  * @param <E>  the type parameter
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
