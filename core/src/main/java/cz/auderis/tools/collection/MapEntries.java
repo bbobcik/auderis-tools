@@ -17,12 +17,13 @@
 package cz.auderis.tools.collection;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * The type Map entries.
+ * Utility class simplifying operations with collections of Map.Entry records
  *
  * @author Boleslav Bobcik &lt;bbobcik@gmail.com&gt;
  * @version 1.0
@@ -110,8 +111,58 @@ public final class MapEntries {
 		}
 	}
 
+	public static <K, V> Comparator<? extends Map.Entry<K, V>> comparator(Comparator<K> keyCmp) {
+		if (null == keyCmp) {
+			throw new NullPointerException();
+		}
+		return new ComparatorImpl<K, V>(keyCmp, null);
+	}
+
+	public static <K, V> Comparator<? extends Map.Entry<K, V>> comparator(Comparator<K> keyCmp, Comparator<V> valueCmp) {
+		if ((null == keyCmp) && (null == valueCmp)) {
+			throw new NullPointerException();
+		}
+		return new ComparatorImpl<K, V>(keyCmp, valueCmp);
+	}
+
+	public static <K, V> Comparator<? extends Map.Entry<K, V>> valueComparator(Comparator<V> valueCmp) {
+		if (null == valueCmp) {
+			throw new NullPointerException();
+		}
+		return new ComparatorImpl<K, V>(null, valueCmp);
+	}
+
+
 	private MapEntries() {
 		throw new AssertionError();
+	}
+
+	static final class ComparatorImpl<K, V> implements Comparator<Map.Entry<K, V>> {
+		private final Comparator<K> keyComparator;
+		private final Comparator<V> valueComparator;
+
+		ComparatorImpl(Comparator<K> keyComparator, Comparator<V> valueComparator) {
+			this.keyComparator = keyComparator;
+			this.valueComparator = valueComparator;
+		}
+
+		@Override
+		public int compare(Map.Entry<K, V> e1, Map.Entry<K, V> e2) {
+			if ((null == e1) || (null == e2)) {
+				throw new NullPointerException();
+			}
+			if (null != keyComparator) {
+				final int cmp = keyComparator.compare(e1.getKey(), e2.getKey());
+				if (0 != cmp) {
+					return cmp;
+				}
+			}
+			if (null != valueComparator) {
+				final int cmp = valueComparator.compare(e1.getValue(), e2.getValue());
+				return cmp;
+			}
+			return 0;
+		}
 	}
 
 }
