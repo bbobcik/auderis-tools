@@ -1,4 +1,4 @@
-package cz.auderis.tools.math;
+package cz.auderis.tools.math.combination;
 
 import cz.auderis.tools.math.combination.AbstractChaseSequenceCombinationIterator;
 import org.junit.Test;
@@ -76,7 +76,6 @@ public class AbstractChaseSequenceCombinationIteratorTest {
 		@Override
 		protected Void createCombination() {
 			++counter;
-			System.out.println(combinationBits);
 			return null;
 		}
 	}

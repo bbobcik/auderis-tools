@@ -10,7 +10,7 @@ public class BitMaskCombinationIterator extends AbstractChaseSequenceCombination
 		this.bitArray = new long[maskBits];
 		long value = mask;
 		for (int i=0; i<maskBits; ++i) {
-			final long bit = Long.lowestOneBit(value);
+			final long bit = Long.highestOneBit(value);
 			bitArray[i] = bit;
 			value ^= bit;
 		}

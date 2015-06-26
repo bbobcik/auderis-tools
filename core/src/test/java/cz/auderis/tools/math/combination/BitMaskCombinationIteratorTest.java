@@ -1,10 +1,12 @@
 package cz.auderis.tools.math.combination;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class BitMaskCombinationIteratorTest {
@@ -103,17 +105,16 @@ public class BitMaskCombinationIteratorTest {
 	@Test
 	public void shouldCreateArbitrarySubmasks() throws Exception {
 		final long mask = 0xA35C7093B1452DFFL;
-		final int submaskSize = 11;
+		final int submaskSize = 3;
 		final BitMaskCombinationIterator combinator = new BitMaskCombinationIterator(mask, submaskSize);
 		int count = 0;
 		while (combinator.hasNext()) {
 			final Long submask = combinator.next();
-			assertTrue("bits not from mask", 0L == (submaskSize & ~mask));
-			assertTrue("bad submask size", Long.bitCount(submask) == submaskSize);
+			assertThat("bits not from mask", submaskSize & ~mask, is(0L));
+			assertThat("bad submask size", Long.bitCount(submask), is(submaskSize));
 			++count;
 		}
-		System.out.println("Found combinations: " + count);
+		assertThat("bad mask count", count, is(5984));
 	}
-
 
 }
