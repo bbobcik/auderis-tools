@@ -1,6 +1,6 @@
 package cz.auderis.tools.math.combination;
 
-public class BitMaskCombinationIterator extends AbstractChaseSequenceCombinationIterator<Long> {
+public class BitMaskCombinationIterator extends AbstractLexicographicCombinationIterator<Long> {
 
 	private final long[] bitArray;
 
@@ -10,7 +10,7 @@ public class BitMaskCombinationIterator extends AbstractChaseSequenceCombination
 		this.bitArray = new long[maskBits];
 		long value = mask;
 		for (int i=0; i<maskBits; ++i) {
-			final long bit = Long.highestOneBit(value);
+			final long bit = Long.lowestOneBit(value);
 			bitArray[i] = bit;
 			value ^= bit;
 		}

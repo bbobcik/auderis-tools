@@ -1,52 +1,49 @@
+/*
+ * Copyright 2015 Boleslav Bobcik
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cz.auderis.tools.math.combination;
 
 import java.util.BitSet;
 
-/**
- * Created by Customer on 26.6.2015.
- */
-public abstract class AbstractChaseSequenceCombinationIterator<T> implements CombinationIterator<T> {
+public abstract class AbstractChaseSequenceCombinationIterator<T> extends AbstractCombinationIterator<T> {
 
-	protected final int itemCount;
-	protected final int combinationSize;
-	protected final BitSet combinationBits;
 	private final transient BitSet w;
 	private final transient int unselectedSize;
-	private transient boolean moreCombinations;
 	private transient int r;
 
 	protected abstract T createCombination();
 
-	public AbstractChaseSequenceCombinationIterator(int itemCount, int combinationSize) {
-		this.itemCount = itemCount;
-		this.combinationSize = combinationSize;
+	protected AbstractChaseSequenceCombinationIterator(int itemCount, int combinationSize) {
+		super(itemCount, combinationSize);
 		this.unselectedSize = itemCount - combinationSize;
-		this.combinationBits = new BitSet(itemCount);
 		this.w = new BitSet(itemCount + 1);
 		reset();
 	}
 
 	@Override
-	public int getItemCount() {
-		return itemCount;
+	public String getCombinationType() {
+		return "Chase";
 	}
 
 	@Override
-	public int getCombinationSize() {
-		return combinationSize;
+	protected BitSet createCombinationBitSet() {
+		return new BitSet(itemCount);
 	}
 
 	@Override
-	public boolean hasNext() {
-		return moreCombinations;
-	}
-
-	@Override
-	public void reset() {
-		moreCombinations = (combinationSize <= itemCount);
-		if (!moreCombinations) {
-			return;
-		}
+	protected boolean initialize() {
 		w.set(0, itemCount + 1);
 		// T=selected bits, S=unselected bits, N=S+T
 		if (unselectedSize > 0) {
@@ -58,21 +55,23 @@ public abstract class AbstractChaseSequenceCombinationIterator<T> implements Com
 			combinationBits.set(0, itemCount);
 			r = combinationSize;
 		}
+		return true;
 	}
 
 	@Override
-	public T next() {
-		final T result = createCombination();
+	protected boolean prepareNextCombination() {
+		if (itemCount <= 1) {
+			return false;
+		}
 		int j = r;
 		while (false == w.get(j)) {
 			w.set(j);
 			++j;
 			if (j == itemCount) {
-				moreCombinations = false;
-				return result;
+				return false;
 			}
 		}
-		// Turn of bit j
+		// Turn of combinationBits j
 		w.clear(j);
 		//
 		final boolean jOdd = (1 == (j & 1));
@@ -118,12 +117,7 @@ public abstract class AbstractChaseSequenceCombinationIterator<T> implements Com
 				}
 			}
 		}
-		return result;
-	}
-
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException();
+		return true;
 	}
 
 }
