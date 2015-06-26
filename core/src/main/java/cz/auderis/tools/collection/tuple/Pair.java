@@ -100,11 +100,7 @@ public abstract class Pair<L, R> implements Map.Entry<L, R>, Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder str = new StringBuilder();
-		str.append('(').append(getLeft());
-		str.append(',').append(getRight());
-		str.append(')');
-		return str.toString();
+		return "(" + getLeft() + ',' + getRight() + ')';
 	}
 
 }

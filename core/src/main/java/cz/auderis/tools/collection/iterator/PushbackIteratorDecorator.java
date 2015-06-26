@@ -120,7 +120,7 @@ public class PushbackIteratorDecorator<T> implements Iterator<T>, Iterable<T> {
 	 */
 	public void pushback(Collection<? extends T> items) {
 		if (null == items) {
-			return;
+			// Ignore
 		} else if (null == pushbackBuffer) {
 			pushbackBuffer = new LinkedList<T>(items);
 		} else {

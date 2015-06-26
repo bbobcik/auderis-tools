@@ -112,7 +112,6 @@ public final class TopoSorter<K, V> {
 		for (TopoNode<? extends K, ? extends V> node : sourceNodes) {
 			if (null == node) {
 				// Ignore node
-				continue;
 			} else if (node.getRemainingTopoDependencies().isEmpty()) {
 				leadNodes.add(node);
 			} else {

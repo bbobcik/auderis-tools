@@ -26,7 +26,6 @@ public class BucketedIntegerSet implements Set<Integer> {
 	public static final int MAX_BUCKET_ID_BITS = 6;
 	private static final Integer[] EMPTY_INT_ARRAY = { };
 
-	private final int bucketIdBits;
 	private final int bucketCount;
 	private final int bucketIdMask;
 	private final Set<Integer>[] bucketSets;
@@ -38,7 +37,6 @@ public class BucketedIntegerSet implements Set<Integer> {
 		if ((bits < 1) || (bits > MAX_BUCKET_ID_BITS)) {
 			throw new IllegalArgumentException("illegal number of bits for bucket");
 		}
-		this.bucketIdBits = bits;
 		this.bucketCount = 1 << bits;
 		this.bucketIdMask = bucketCount - 1;
 		this.bucketSets = new Set[bucketCount];

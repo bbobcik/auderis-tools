@@ -28,7 +28,6 @@ import java.util.NoSuchElementException;
  */
 public class IntegerIterator implements Iterator<Integer>, Iterable<Integer> {
 
-	private final int start;
 	private final int step;
 	private final int count;
 
@@ -56,11 +55,10 @@ public class IntegerIterator implements Iterator<Integer>, Iterable<Integer> {
 		if (count < 0) {
 			throw new IllegalArgumentException("count must be non-negative");
 		}
-		this.start = start;
 		this.step = step;
 		this.count = count;
 		this.idx = -1;
-		this.value = this.start - this.step;
+		this.value = start - this.step;
 	}
 
 	/**

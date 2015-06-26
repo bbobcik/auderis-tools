@@ -362,11 +362,7 @@ public abstract class Loop<T> {
 			if (-1 == index) {
 				throw new IllegalStateException(ERR_NOT_ACTIVE);
 			}
-			final StringBuilder str = new StringBuilder("[");
-			str.append(index);
-			str.append("] ");
-			str.append(current);
-			return str.toString();
+			return "[" + index + "] " + current;
 		}
 
 		/**
@@ -603,11 +599,7 @@ public abstract class Loop<T> {
 			if (-1 == index) {
 				throw new IllegalStateException(ERR_NOT_ACTIVE);
 			}
-			final StringBuilder str = new StringBuilder("[");
-			str.append(index);
-			str.append("] ");
-			str.append(getValue());
-			return str.toString();
+			return "[" + index + "] " + getValue();
 		}
 	}
 
@@ -650,11 +642,7 @@ public abstract class Loop<T> {
 			if (-1 == index) {
 				throw new IllegalStateException(ERR_NOT_ACTIVE);
 			}
-			final StringBuilder str = new StringBuilder("[");
-			str.append(index);
-			str.append("] ");
-			str.append(baseArray[index]);
-			return str.toString();
+			return "[" + index + "] " + baseArray[index];
 		}
 
 		@Override

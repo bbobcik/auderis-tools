@@ -115,11 +115,7 @@ public final class SimpleMapEntry<K, V> implements Map.Entry<K, V>, Serializable
 
 	@Override
 	public String toString() {
-		final StringBuilder str = new StringBuilder();
-		str.append("{").append(key);
-		str.append(" => ").append(value);
-		str.append("}");
-		return str.toString();
+		return "{" + key + " => " + value + "}";
 	}
 
 	private void writeObject(ObjectOutputStream out) throws IOException {

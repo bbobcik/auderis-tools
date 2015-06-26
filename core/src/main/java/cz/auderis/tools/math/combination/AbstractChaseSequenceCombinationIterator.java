@@ -64,7 +64,7 @@ public abstract class AbstractChaseSequenceCombinationIterator<T> extends Abstra
 			return false;
 		}
 		int j = r;
-		while (false == w.get(j)) {
+		while (!w.get(j)) {
 			w.set(j);
 			++j;
 			if (j == itemCount) {

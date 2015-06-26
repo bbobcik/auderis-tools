@@ -185,7 +185,6 @@ public class CircularQueue<E> implements Collection<E> {
 		try {
 			if (null == o) {
 				for (int i = 0; i < size; ++i) {
-					final E entryData = entries[i].data;
 					if (null == entries[i].data) {
 						return true;
 					}

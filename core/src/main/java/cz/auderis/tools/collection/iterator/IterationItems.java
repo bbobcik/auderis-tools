@@ -161,11 +161,7 @@ public final class IterationItems<T> implements Iterable<IterationItem<T>> {
 
 		@Override
 		public String toString() {
-			StringBuilder str = new StringBuilder("[");
-			str.append(index);
-			str.append("] ");
-			str.append(current);
-			return str.toString();
+			return "[" + index + "] " + current;
 		}
 	}
 

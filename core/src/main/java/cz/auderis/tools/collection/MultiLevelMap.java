@@ -256,22 +256,19 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 	public int size() {
 		int size = currentLevel.size();
 		if (null != parent) {
-			Set<Entry<K, V>> entrySet = parent.entrySet();
-			for (Entry<K, V> entry : entrySet) {
-				final K key = entry.getKey();
-				if (null == key) {
+			final Set<Entry<K, V>> parentEntries = parent.entrySet();
+			for (Entry<K, V> parentEntry : parentEntries) {
+				final K keyFromParent = parentEntry.getKey();
+				if (null == keyFromParent) {
 					// Ignore null keys
-				} else if (currentLevel.containsKey(key)) {
-					// Ignore items that are overriden
+				} else if (currentLevel.containsKey(keyFromParent)) {
+					// Ignore items that are overridden
 				} else {
 					++size;
 				}
 			}
-			return size;
 		}
-
-		int parentSize = (null == parent) ? 0 : parent.size();
-		return parentSize + currentLevel.size();
+		return size;
 	}
 
 	@Override
@@ -637,9 +634,9 @@ public class MultiLevelMap<K, V> implements CascadingMap<K, V> {
 		@Override
 		public Map.Entry<K, V> next() {
 			if (iteratingCurrentLevel) {
-				return (Map.Entry<K, V>) currentIterator.next();
+				return currentIterator.next();
 			}
-			return (Map.Entry<K, V>) parentIterator.next();
+			return parentIterator.next();
 		}
 
 		@Override

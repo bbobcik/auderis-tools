@@ -225,7 +225,7 @@ public final class Scale {
 			public double getValue() {
 				return Double.NaN;
 			}
-		};
+		}
 	}
 
 	private static final class RegularDecomposition implements NumberDecomposition {
