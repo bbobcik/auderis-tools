@@ -28,8 +28,8 @@ import java.util.NoSuchElementException;
  */
 public class SingleItemIterator<T> implements Iterator<T>, Iterable<T> {
 
-	private T itemReference;
-	private boolean exhausted;
+	protected T itemReference;
+	protected boolean exhausted;
 
 	/**
 	 * Instantiates a new Single item iterator.
